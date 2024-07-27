@@ -12,4 +12,5 @@ COPY . .
 
 EXPOSE 9000
 
+CMD ["/bin/sh"]
 # CMD ["npm", "start"]

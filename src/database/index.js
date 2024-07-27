@@ -20,8 +20,8 @@ FuncaoUsuario.init(connection)
 AcessoFuncao.init(connection)
 Usuario.init(connection)
 
-ConfigIniciais.init()
+await connection.sync({ alter: true })
 
-connection.sync({ alter: true })
+ConfigIniciais.init()
 
 module.exports = connection;
