@@ -12,5 +12,5 @@ COPY . .
 
 EXPOSE 9000
 
-CMD ["/bin/sh"]
+CMD ["tail", "-f", "/dev/null"]
 # CMD ["npm", "start"]
