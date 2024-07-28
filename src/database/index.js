@@ -1,27 +1,28 @@
 const Sequelize = require('sequelize')
 const dbConfig = require('../config/database')
-const Usuario = require('../models/Usuario')
-const FuncaoSistema = require('../models/FuncaoSistema')
-const FuncaoUsuario = require('../models/FuncaoUsuario')
-const AcessoFuncao = require('../models/AcessoFuncao')
+const { UsuarioInit } = require('../models/Usuario')
 const ConfigIniciais = require('./ConfigIniciais')
 
-const connection = new Sequelize(dbConfig)
+const connection = new Sequelize(dbConfig);
 
-// try{
-//     connection.authenticate();
-//     console.log('Conectado no banco de dados!');
-// } catch (error) {
-//     console.error('Banco de dados não conectado:', error);
-// }
+(async () => {
+  try {
+    // Autenticação da conexão
+    await connection.authenticate();
+    console.log('Conectado no banco de dados!');
 
-FuncaoSistema.init(connection)
-FuncaoUsuario.init(connection)
-AcessoFuncao.init(connection)
-Usuario.init(connection)
+    // Inicializando modelos
+    UsuarioInit(connection)
+    
+    // Sincronizando os modelos com o banco de dados        
+    await connection.sync({ alter: true });
+    
+    // Executando configurações iniciais
+    await ConfigIniciais.configUsuario();
 
-connection.sync({ alter: true })
-
-// ConfigIniciais.init()
+  } catch (error) {
+    console.error('Banco de dados não conectado:', error);
+  }
+})();
 
 module.exports = connection;

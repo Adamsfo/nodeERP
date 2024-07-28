@@ -22,7 +22,6 @@
     "git": "^0.1.5",
     "imap-simple": "^1.6.3",
     "mimemessage": "^1.0.5",
-    "mssql": "^11.0.1",
     "mysql2": "^3.10.2",
     "nodemailer": "^6.9.14",
     "nodemon": "^3.1.4",
