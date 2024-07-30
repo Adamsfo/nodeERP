@@ -33,6 +33,43 @@ module.exports = {
                 alterarSenha: false                                
             }
         })
+        await Usuario.findOrCreate({
+            where : {
+                login: "lilian",
+                email: "admin@tanztecnologia.com.br",   
+                nomeCompleto: "Administrador Tanz"             
+            },
+            defaults: {
+                senha: "123456",                
+                ativo: true,
+                alterarSenha: false                                
+            }
+        })
+        await Usuario.findOrCreate({
+            where : {
+                login: "adams",
+                email: "admin@tanztecnologia.com.br",   
+                nomeCompleto: "Administrador Tanz"             
+            },
+            defaults: {
+                senha: "123456",                
+                ativo: true,
+                alterarSenha: false                                
+            }
+        })
+
+        await Usuario.findOrCreate({
+            where : {
+                login: "juju",
+                email: "admin@tanztecnologia.com.br",   
+                nomeCompleto: "Administrador Tanz"             
+            },
+            defaults: {
+                senha: "123456",                
+                ativo: true,
+                alterarSenha: false                                
+            }
+        })
 
 
         const usuarioAcesso = await UsuarioFuncao.findOrCreate({

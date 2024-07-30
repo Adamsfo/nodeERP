@@ -3,7 +3,7 @@ const router = express.Router()
 const Auth = require('./middlewares/Auth')
 const AuthValidator = require('./validators/AuthValidator')
 // const AuthController = require('./controllers/AuthController')
-const SenhaController = require('./controllers/UsuarioController')
+const UsuarioController = require('./controllers/UsuarioController')
 
 
 // router.get('/ping', (req, res) => {
@@ -11,6 +11,6 @@ const SenhaController = require('./controllers/UsuarioController')
 // })
 
 // router.get('/senha', Auth.private, UsuarioController.index)
-router.get('/senha', SenhaController.index)
+router.get('/usuario', UsuarioController.getUsuarioT)
 
 module.exports = router

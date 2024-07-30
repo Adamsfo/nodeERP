@@ -1,0 +1,7 @@
+GET http://localhost:9000/usuario?age=1&pageSize=10&sortBy=email&order=asc&filters={"email":"admin","login":"ju"}
+
+
+GET http://localhost:9000/usuario?page=1&pageSize=10&search=test&sortBy=email&order=asc&filters={"ativo":"1"}
+
+# Headers (opcional)
+Accept: application/json
