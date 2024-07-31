@@ -1,7 +1,77 @@
-GET http://localhost:9000/usuario?age=1&pageSize=10&sortBy=email&order=asc&filters={"email":"admin","login":"ju"}
+GET http://localhost:9000/usuario?page=1&pageSize=10&sortBy=email&order=asc&filters={"email":"admin"}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJhZGFtczMyQGVtYWlsLmNvbSIsImlhdCI6MTcyMjQ1MDg2NywiZXhwIjoxNzIyNDU0NDY3fQ.ST_mLNvMFlRKpIp0mEQRD603JxUMXi3zZthnj6fKxcE
+
+###
+GET http://localhost:9000/usuario?page=1&pageSize=10&sortBy=email&order=asc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJhZGFtczMyQGVtYWlsLmNvbSIsImlhdCI6MTcyMjQ1MDg2NywiZXhwIjoxNzIyNDU0NDY3fQ.ST_mLNvMFlRKpIp0mEQRD603JxUMXi3zZthnj6fKxcE
 
 
 GET http://localhost:9000/usuario?page=1&pageSize=10&search=test&sortBy=email&order=asc&filters={"ativo":"1"}
 
-# Headers (opcional)
+###
+POST http://localhost:9000/usuario
+Content-Type: application/json
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJhZGFtczMyQGVtYWlsLmNvbSIsImlhdCI6MTcyMjQ1MDg2NywiZXhwIjoxNzIyNDU0NDY3fQ.ST_mLNvMFlRKpIp0mEQRD603JxUMXi3zZthnj6fKxcE
+
+{
+  "email": "adams32@email.com",
+  "login": "adams2",
+  "senha": "senha",
+  "nomeCompleto": "testeteste"
+
+}
+
+###
+POST http://localhost:9000/usuario
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "adams2@email.com",
+  "login": "adams2",
+  "senha": "senha",
+  "nomeCompleto": "testeteste"
+
+}
+
+
+###
+PUT  http://localhost:9000/usuario/7
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJhZGFtczMyQGVtYWlsLmNvbSIsImlhdCI6MTcyMjQ1MDg2NywiZXhwIjoxNzIyNDU0NDY3fQ.ST_mLNvMFlRKpIp0mEQRD603JxUMXi3zZthnj6fKxcE
+
+{
+  "email": "exempsdfasdaaaaafoedit@email.com",
+  "ativo": false,
+  "senha": "12345"
+
+}
+
+
+###
+DELETE  http://localhost:9000/usuario/8
+
+
+###
+POST http://localhost:9000/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "login": "adams32@email.com",  
+  "senha": "senha"
+}
+
+
+###
+POST http://localhost:9000/addlogin
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "adams322122@email.com",
+  "login": "adams22123",
+  "senha": "senha"
+}

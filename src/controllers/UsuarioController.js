@@ -1,110 +1,92 @@
-const { validationResult, matchedData } = require('express-validator')
+const { validationResult } = require('express-validator')
 const { Usuario } = require('../models/Usuario')
-const dbConfig = require('../config/database')
-const { Op, Sequelize } = require('sequelize')
-const sequelize = new Sequelize(dbConfig)
-const { getRegistros } = require("./utils")
+const { getRegistros } = require("../utils/getRegistros")
+const CustomError = require('../utils/customError')
 
-module.exports = { 
-    async getUsuarioT(req, res) {
-        await getRegistros(Usuario, req, res)
+module.exports = {
+    async getUsuario(req, res, next) {
+        await getRegistros(Usuario, req, res, next)
     },
 
-    // async getUsuario(req, res) {
-    //     try {
-    //         // Pegando os parâmetros de paginação, pesquisa, filtros e ordenação da query string
-    //         const page = parseInt(req.query.page, 10) || 1;
-    //         const pageSize = parseInt(req.query.pageSize, 10) || 10;
-    //         const search = req.query.search || '';
-    //         const order = req.query.order || 'asc';
-    //         const sortBy = req.query.sortBy || 'id'; // Campo padrão para ordenação
+    async addUsuario(req, res, next) {
+        try {
+            const { email, login, senha, nomeCompleto } = req.body;
 
-    //         // Filtros adicionais (opcional, com base nos campos da sua tabela)
-    //         const filters = req.query.filters ? JSON.parse(req.query.filters) : {};
+            // Validação básica
+            if (!email || !login || !senha || !nomeCompleto) {
+                // return res.status(400).json({ message: 'Os campos email, login, senha, nomeCompleto são obrigatórios.' });
+                throw new CustomError('Os campos email, login, senha, nomeCompleto são obrigatórios.', 400, '');
+            }
 
-    //         // Calculando offset e limit
-    //         const offset = (page - 1) * pageSize;
-    //         const limit = pageSize;
+            const ativo = true
+            const alterarSenha = true
 
-    //         // Condição de pesquisa
-    //         const searchCondition = search ? {
-    //             [Op.or]: [
-    //                 { field1: { [Op.like]: `%${search}%` } }, // Substitua pelos nomes dos campos da sua tabela
-    //                 // { field2: { [Op.like]: `%${search}%` } },
-    //                 // { field3: { [Op.like]: `%${search}%` } }
-    //             ]
-    //         } : {};
+            const registro = await Usuario.create({ email, login, senha, nomeCompleto, ativo, alterarSenha });
+            return res.status(201).json(registro);
+        } catch (error) {            
+            next(error);            
+        }
+    },    
 
-    //         // Condições de filtro adicionais
-    //         const filterConditions = {};
-    //         if (filters && typeof filters === 'object') {
-    //         for (const [key, value] of Object.entries(filters)) {
-    //             filterConditions[key] = { [Op.eq]: value };
-    //         }
-    //         }
-
-    //         // Combinação de condições de pesquisa e filtro
-    //         const whereCondition = {
-    //             ...searchCondition,
-    //             ...filterConditions
-    //         };
-
-    //         // Consultando o banco de dados com paginação, pesquisa, filtros e ordenação
-    //         const { count, rows } = await Usuario.findAndCountAll({
-    //             where: whereCondition,
-    //             offset,
-    //             limit,
-    //             order: [[sortBy, order]] // Ordenação por campo e direção
-    //         });
-
-    //         // Calculando o número total de páginas
-    //         const totalPages = Math.ceil(count / pageSize);            
-
-    //         // Retornando a resposta com dados e metadados de paginação
-    //         res.status(200).json({
-    //             data: rows,
-    //             meta: {
-    //                 totalItems: count,
-    //                 totalPages,
-    //                 currentPage: page,
-    //                 pageSize
-    //             }
-    //         });
-    //     } catch (error) {
-    //         console.error('Erro ao buscar os itens:', error);
-    //         res.status(500).json({ error: 'Erro ao buscar registros' });
-    //     }
-    // },
-
-    async store(req, res) {
-        const { nome, nomecompleto, senha } = req.body
-        const user = await Usuario.create({ nome, nomecompleto, senha })
-        return res.json(user)
+    async editUsuario(req, res, next) {
+        try {
+            const id = req.params.id;
+            const { email, login, senha, nomeCompleto, ativo, alterarSenha } = req.body;
+        
+            // Validação dos dados (exemplo simples)
+            if (!id) {
+              throw new CustomError('ID do usuário é obrigatório.', 400, '');              
+            }
+        
+            if (!email && !login && !senha && !nomeCompleto && ativo === undefined && alterarSenha === undefined && !token) {
+              // return res.status(400).json({ message: 'Nenhum campo para atualizar fornecido.' });
+              throw new CustomError('Nenhum campo para atualizar fornecido.', 400, '');
+            }
+        
+            // Verificar se o usuário existe
+            const registro = await Usuario.findByPk(id);
+            if (!registro) {
+              throw new CustomError('Usuário não encontrado.', 404, '');
+              // return res.status(404).json({ message: 'Usuário não encontrado.' });
+            }
+        
+            // Atualizar os campos permitidos
+            if (email) registro.email = email;
+            if (login) registro.login = login;
+            if (senha) registro.senha = senha;
+            if (nomeCompleto) registro.nomeCompleto = nomeCompleto;
+            if (ativo !== undefined) registro.ativo = ativo;
+            if (alterarSenha !== undefined) registro.alterarSenha = alterarSenha;            
+        
+            await registro.save();
+            return res.status(200).json(registro);
+          } catch (error) {
+            next(error); // Passa o erro para o middleware de tratamento de erros
+          }
     },
 
-    async editAction(req, res) {
-        const errors = validationResult(req)
-        if (!errors.isEmpty()) {
-            res.json({ error: errors.mapped() })
-            return
-        }
-        const data = req.body
-        const user = await Usuario.findOne({ where: { codigo: data.codigo } })
-
-        if (data.nomecompleto) {
-            user.nomecompleto = data.nomecompleto
-        }
-
-        if (data.nome) {
-            user.nome = data.nome
-        }
-
-        if (data.senha) {
-            user.senha = data.senha
-        }
-
-        user.save()
-
-        return res.json({ user })
+    async deleteUsuario(req, res, next) {
+        try {
+            const id = req.params.id;
+        
+            if (!id) {
+              throw new CustomError('ID do usuário é obrigatório.', 400, '');
+              // return res.status(400).json({ message: 'ID do usuário é obrigatório.' });
+            }
+        
+            // Verificar se o usuário existe
+            const registro = await Usuario.findByPk(id);
+            if (!registro) {
+              throw new CustomError('Usuário não encontrado.', 404, '');
+              // return res.status(404).json({ message: 'Usuário não encontrado.' });
+            }
+        
+            // Deletar o usuário
+            await registro.destroy();
+        
+            return res.status(200).json({ message: 'Usuário deletado com sucesso.' });
+          } catch (error) {
+            next(error); // Passa o erro para o middleware de tratamento de erros
+          }
     }
 }

@@ -1,4 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
+const bcrypt = require('bcrypt')
 
 const UsuarioInit = (connection) => {
     FuncaoSistema.init(connection);
@@ -88,10 +89,16 @@ class Usuario extends Model {
                 autoIncrement: true,
                 primaryKey: true
             },
-            email: DataTypes.STRING,
-            login: {
+            email: {
                 type: DataTypes.STRING,
                 unique: true,
+                validate: {
+                    isEmail: true,
+                  },
+            },
+            login: {
+                type: DataTypes.STRING,
+                unique: true,                
             },
             senha: DataTypes.STRING,
             nomeCompleto: DataTypes.STRING,
@@ -104,7 +111,14 @@ class Usuario extends Model {
         }, {
             sequelize,
             modelName: "Usuario",
-            freezeTableName: true
+            freezeTableName: true,
+            hooks: {
+                beforeSave: async (usuario) => {
+                    if (usuario.senha) {
+                        usuario.senha = await bcrypt.hash(usuario.senha, 10);
+                    }
+                }
+            }   
         })
     }
 }
@@ -138,5 +152,9 @@ class UsuarioFuncao extends Model {
         })
     }
 }
+
+Usuario.prototype.verifyPassword = async function (senha) {
+    return bcrypt.compare(senha, this.senha)
+  }
 
 module.exports = { FuncaoSistema, FuncaoUsuario, FuncaoUsuarioAcesso, Usuario, UsuarioFuncao, UsuarioInit };

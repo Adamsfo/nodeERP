@@ -1,6 +1,6 @@
 const { Op } = require('sequelize');
 
-async function getRegistros(Model, req, res) {
+async function getRegistros(Model, req, res, next) {
   try {
     // Pegando os parâmetros de paginação, pesquisa, filtros e ordenação da query string
     const page = parseInt(req.query.page, 10) || 1;
@@ -31,8 +31,6 @@ async function getRegistros(Model, req, res) {
       }
     }
 
-    console.log(filterConditions)
-
     // Combinação de condições de pesquisa e filtro
     const whereCondition = {
       ...searchCondition,
@@ -48,7 +46,7 @@ async function getRegistros(Model, req, res) {
     });
 
     // Calculando o número total de páginas
-    const totalPages = Math.ceil(count / pageSize);
+    const totalPages = Math.ceil(count / pageSize);    
 
     // Retornando a resposta com dados e metadados de paginação
     res.status(200).json({
@@ -60,9 +58,8 @@ async function getRegistros(Model, req, res) {
         pageSize
       }
     });
-  } catch (error) {
-    console.error('Erro ao buscar os itens:', error);
-    res.status(500).json({ error: 'Erro ao buscar registros' });
+  } catch (error) {        
+    next(error);
   }
 }
 
