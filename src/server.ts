@@ -1,13 +1,14 @@
 require('dotenv').config()
-const express = require('express')
-const authRoutes = require('./src/routes/authRoutes')
-const usuarioRoutes = require('./src/routes/usuarioRoutes')
-require('./src/database/index')
+// const express = require('express')
+import express from 'express'
+const authRoutes = require('./routes/authRoutes')
+const usuarioRoutes = require('./routes/usuarioRoutes')
+require('./database/index')
 const cors = require('cors')
 const fileupload = require('express-fileupload')
 var path = require('path')
-var public = path.join(__dirname, 'public')
-const errorHandler = require('./src/middlewares/errorHandler')
+var publicDir = path.join(__dirname, 'public')
+const errorHandler = require('./middlewares/errorHandler')
 
 const server = express();
 
@@ -15,13 +16,13 @@ server.use(cors())
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }))
 server.use(fileupload())
-server.use('/', express.static(public))
+server.use('/', express.static(publicDir))
 server.use(authRoutes)
 server.use(usuarioRoutes)
 server.use(errorHandler)
 
-server.get('/', (req, res) => {
-    res.send('Hello World ');
+server.get('/', (req: any, res: any) => {
+    res.send('Hello World');
 });
 
 server.listen(process.env.PORT, () => {

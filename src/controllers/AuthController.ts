@@ -1,21 +1,19 @@
-const { Usuario } = require('../models/Usuario')
-const { generateToken } = require('../utils/jwtUtils')
-const CustomError = require('../utils/customError')
+import { Usuario } from '../models/Usuario'
+import { generateToken } from '../utils/jwtUtils'
+import { CustomError } from '../utils/customError'
 
 module.exports = {
-  login: async (req, res, next) => {
+  login: async (req: any, res: any, next: any) => {
     try {
       const { login, senha } = req.body;
 
       if (!login || !senha) {
-        throw new CustomError('Email e senha são obrigatórios.', 400, '');
-        // return res.status(400).json({ message: 'Email e senha são obrigatórios.' });
-
+        throw new CustomError('Email e senha são obrigatórios.', 400, '');        
       }
 
       const isEmail = login.includes('@')
 
-      let usuario = []
+      let usuario: Usuario | null
       if (isEmail) {
         usuario = await Usuario.findOne({ where: { email: login } });
       } else {
@@ -23,8 +21,7 @@ module.exports = {
       }
 
       if (!usuario || !(await usuario.verifyPassword(senha))) {
-        throw new CustomError('Credenciais inválidas.', 401, '');
-        // return res.status(401).json({ message: 'Credenciais inválidas.' });
+        throw new CustomError('Credenciais inválidas.', 401, '');        
       }
 
       const token = generateToken(usuario);
@@ -34,7 +31,7 @@ module.exports = {
     }
   },
 
-  addLogin: async (req, res, next) => {
+  addLogin: async (req: any, res: any, next: any) => {
     try {
       const { login, email, senha } = req.body;
 

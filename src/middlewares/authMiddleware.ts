@@ -1,7 +1,7 @@
-const { verifyToken } = require('../utils/jwtUtils');
-const CustomError = require('../utils/customError')
+import { verifyToken } from '../utils/jwtUtils'; 
+import { CustomError } from '../utils/customError'
 
-const authenticate = (req, res, next) => {
+const authenticate = (req: any, res: any, next: any) => {
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(' ')[1]; // Suporta "Bearer <token>"
 

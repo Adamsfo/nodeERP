@@ -1,7 +1,13 @@
 // utils/CustomError.js
 
-class CustomError extends Error {
-    constructor(message, statusCode, code, details = {}) {
+export class CustomError extends Error {
+    public statusCode: number;
+    public status: string;
+    public code: number;
+    public details: {};
+    public isOperational: boolean;
+
+    constructor(message: string, statusCode: number, code: any, details = {}) {
       super(message);
       this.statusCode = statusCode;
       this.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error';
@@ -13,5 +19,5 @@ class CustomError extends Error {
     }
   }
   
-  module.exports = CustomError;
+  // module.exports = CustomError;
   

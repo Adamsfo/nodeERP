@@ -1,9 +1,9 @@
 GET http://localhost:9000/usuario?page=1&pageSize=10&sortBy=email&order=asc&filters={"email":"admin"}
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJhZGFtczMyQGVtYWlsLmNvbSIsImlhdCI6MTcyMjQ1MDg2NywiZXhwIjoxNzIyNDU0NDY3fQ.ST_mLNvMFlRKpIp0mEQRD603JxUMXi3zZthnj6fKxcE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhZGFtczMyMjEyMkBlbWFpbC5jb20iLCJpYXQiOjE3MjI5NDQ3NTIsImV4cCI6MTcyMjk0ODM1Mn0.RJd0LkkqwK-E94gQkaXO2XzvJS3wRxW76c-HgkDMusM
 
 ###
-GET http://localhost:9000/usuario?page=1&pageSize=10&sortBy=email&order=asc
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJhZGFtczMyQGVtYWlsLmNvbSIsImlhdCI6MTcyMjQ1MDg2NywiZXhwIjoxNzIyNDU0NDY3fQ.ST_mLNvMFlRKpIp0mEQRD603JxUMXi3zZthnj6fKxcE
+GET http://localhost:9000/usuariofuncao?page=1&pageSize=10&order=asc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhZGFtczMyMjEyMkBlbWFpbC5jb20iLCJpYXQiOjE3MjI5NDQ3NTIsImV4cCI6MTcyMjk0ODM1Mn0.RJd0LkkqwK-E94gQkaXO2XzvJS3wRxW76c-HgkDMusM
 
 
 GET http://localhost:9000/usuario?page=1&pageSize=10&search=test&sortBy=email&order=asc&filters={"ativo":"1"}
@@ -12,7 +12,7 @@ GET http://localhost:9000/usuario?page=1&pageSize=10&search=test&sortBy=email&or
 POST http://localhost:9000/usuario
 Content-Type: application/json
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJhZGFtczMyQGVtYWlsLmNvbSIsImlhdCI6MTcyMjQ1MDg2NywiZXhwIjoxNzIyNDU0NDY3fQ.ST_mLNvMFlRKpIp0mEQRD603JxUMXi3zZthnj6fKxcE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhZGFtczMyMjEyMkBlbWFpbC5jb20iLCJpYXQiOjE3MjI1MTM2ODUsImV4cCI6MTcyMjUxNzI4NX0.ppsrnaaIsIVGnZdguH9hby3w4akRqYlVtxl00Q4C_-E
 
 {
   "email": "adams32@email.com",
@@ -37,10 +37,10 @@ Accept: application/json
 
 
 ###
-PUT  http://localhost:9000/usuario/7
+PUT  http://localhost:9000/usuario/1
 Content-Type: application/json
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJhZGFtczMyQGVtYWlsLmNvbSIsImlhdCI6MTcyMjQ1MDg2NywiZXhwIjoxNzIyNDU0NDY3fQ.ST_mLNvMFlRKpIp0mEQRD603JxUMXi3zZthnj6fKxcE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhZGFtczMyMjEyMkBlbWFpbC5jb20iLCJpYXQiOjE3MjI1MTM2ODUsImV4cCI6MTcyMjUxNzI4NX0.ppsrnaaIsIVGnZdguH9hby3w4akRqYlVtxl00Q4C_-E
 
 {
   "email": "exempsdfasdaaaaafoedit@email.com",
@@ -60,7 +60,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "login": "adams32@email.com",  
+  "login": "adams22123",  
   "senha": "senha"
 }
 

@@ -1,4 +1,4 @@
-const { FuncaoSistema, FuncaoUsuario, FuncaoUsuarioAcesso, Usuario, UsuarioFuncao } = require('../models/Usuario')
+import { FuncaoSistema, FuncaoUsuario, FuncaoUsuarioAcesso, Usuario, UsuarioFuncao } from '../models/Usuario'
 
 module.exports = {
     configUsuario: async () => {
@@ -24,13 +24,15 @@ module.exports = {
         const usuario = await Usuario.findOrCreate({
             where : {
                 login: "Admin",
-                email: "admin@tanztecnologia.com.br",   
-                nomeCompleto: "Administrador Tanz"             
+                email: "admin@tanztecnologia.com.br",                   
             },
             defaults: {
+                login: "Admin",
+                email: "admin@tanztecnologia.com.br",
                 senha: "123456",                
                 ativo: true,
-                alterarSenha: false                                
+                alterarSenha: false,
+                nomeCompleto: "Administrador Tanz"             
             }
         })      
 

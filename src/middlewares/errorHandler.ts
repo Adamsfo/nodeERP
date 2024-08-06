@@ -1,13 +1,13 @@
 const { ValidationError } = require('sequelize');
 
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err: any, req: any, res: any, next: any) => {
   console.error(err);
 
   if (err instanceof ValidationError) {
     // Erro de validação do Sequelize
     return res.status(400).json({
       message: 'Erro de validação.',
-      errors: err.errors.map(e => ({
+      errors: err.errors.map((e: any) => ({
         field: e.path,
         message: e.message
       }))

@@ -1,6 +1,13 @@
-const { Op } = require('sequelize');
+import { Model, Op, ModelStatic } from 'sequelize';
 
-async function getRegistros(Model, req, res, next) {
+// Tipagem genérica para a função `getRegistros`
+export async function getRegistros<T extends Model>(
+  model: ModelStatic<T>, 
+  req: any, 
+  res: any, 
+  next: any,
+  includeOptions?: Array<{ model: ModelStatic<any>; as?: string; attributes?: string[] }>
+) {
   try {
     // Pegando os parâmetros de paginação, pesquisa, filtros e ordenação da query string
     const page = parseInt(req.query.page, 10) || 1;
@@ -18,13 +25,13 @@ async function getRegistros(Model, req, res, next) {
 
     // Condição de pesquisa
     const searchCondition = search ? {
-      [Op.or]: Object.keys(Model.rawAttributes).map(field => ({
+      [Op.or]: Object.keys(model.rawAttributes).map(field => ({
         [field]: { [Op.like]: `%${search}%` }
       }))
     } : {};
 
     // Condições de filtro adicionais
-    const filterConditions = {};
+    const filterConditions: { [key: string]: any } = {};
     if (filters && typeof filters === 'object') {
       for (const [key, value] of Object.entries(filters)) {
         filterConditions[key] = { [Op.like]: `%${value}%` };
@@ -38,15 +45,16 @@ async function getRegistros(Model, req, res, next) {
     };
 
     // Consultando o banco de dados com paginação, pesquisa, filtros e ordenação
-    const { count, rows } = await Model.findAndCountAll({
+    const { count, rows } = await model.findAndCountAll({
       where: whereCondition,
       offset,
       limit,
-      order: [[sortBy, order]] // Ordenação por campo e direção
+      order: [[sortBy, order]], // Ordenação por campo e direção
+      include: includeOptions || [], // Incluindo relações se fornecidas // Ordenação por campo e direção
     });
 
     // Calculando o número total de páginas
-    const totalPages = Math.ceil(count / pageSize);    
+    const totalPages = Math.ceil(count / pageSize);
 
     // Retornando a resposta com dados e metadados de paginação
     res.status(200).json({
@@ -58,11 +66,9 @@ async function getRegistros(Model, req, res, next) {
         pageSize
       }
     });
-  } catch (error) {        
+  } catch (error) {
     next(error);
   }
 }
 
-module.exports = {
-    getRegistros
-};
+// export default getRegistros;

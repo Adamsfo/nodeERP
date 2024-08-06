@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const dbConfig = require('../config/database')
-const { UsuarioInit } = require('../models/Usuario')
+// const { UsuarioInit } = require('../models/Usuario')
+import { UsuarioInit } from '../models/Usuario'
 const ConfigIniciais = require('./ConfigIniciais')
 
 const connection = new Sequelize(dbConfig);
