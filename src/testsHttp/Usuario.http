@@ -71,7 +71,8 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "email": "adams322122@email.com",
-  "login": "adams22123",
-  "senha": "senha"
+  "email": "adams3221w22@email.com",
+  "login": "adams2212w3",
+  "senha": "senha",
+  "nomeCompleto": "nomeCompleto"
 }
