@@ -33,7 +33,7 @@ module.exports = {
 
   addLogin: async (req: any, res: any, next: any) => {
     try {
-      const { login, email, senha } = req.body;
+      const { login, email, senha, nomeCompleto } = req.body;
 
       if (!login || !senha || !email) {
         throw new CustomError('Login, email e senha são obrigatórios.', 400, '');
@@ -49,7 +49,7 @@ module.exports = {
         throw new CustomError('Este login já foi utilizado por outro usuário .', 400, '');
       }
 
-      registro = await Usuario.create({ login, email, senha });
+      registro = await Usuario.create({ login, email, senha, nomeCompleto });
 
       return res.status(201).json(registro);
     } catch (error) {

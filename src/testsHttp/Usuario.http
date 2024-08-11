@@ -3,7 +3,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiO
 
 ###
 GET http://localhost:9000/usuariofuncao?page=1&pageSize=10&order=asc
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhZGFtczMyMjEyMkBlbWFpbC5jb20iLCJpYXQiOjE3MjI5NDQ3NTIsImV4cCI6MTcyMjk0ODM1Mn0.RJd0LkkqwK-E94gQkaXO2XzvJS3wRxW76c-HgkDMusM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhZGFtczMyMjEyMkBlbWFpbC5jb20iLCJpYXQiOjE3MjI5NTE0NDgsImV4cCI6MTcyMjk1NTA0OH0.5wLCkDOtlqB3IeT6pV8z88qePhE5IYfDl4xkFkOvxVA
 
 
 GET http://localhost:9000/usuario?page=1&pageSize=10&search=test&sortBy=email&order=asc&filters={"ativo":"1"}
