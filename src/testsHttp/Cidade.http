@@ -1,0 +1,18 @@
+GET http://localhost:9000/cidade?page=1&pageSize=10&sortBy=id&order=desc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZGFtczMyMjF3MjJAZW1haWwuY29tIiwiaWF0IjoxNzIzNTc5NjU5LCJleHAiOjE3MjM1ODMyNTl9.yrWlmkE8PRcX8R8wxflvc-zFQJvv8ucGBHnj14RzxdE
+
+###
+GET http://localhost:9000/cidade?page=1&pageSize=10&sortBy=id&order=desc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZGFtczMyMjF3MjJAZW1haWwuY29tIiwiaWF0IjoxNzIzNTc5NjU5LCJleHAiOjE3MjM1ODMyNTl9.yrWlmkE8PRcX8R8wxflvc-zFQJvv8ucGBHnj14RzxdE
+
+
+###
+POST http://localhost:9000/login
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhZGFtczMyMjEyMkBlbWFpbC5jb20iLCJpYXQiOjE3MjI1MTM2ODUsImV4cCI6MTcyMjUxNzI4NX0.ppsrnaaIsIVGnZdguH9hby3w4akRqYlVtxl00Q4C_-E
+
+{
+  "login": "adams2212w3",  
+  "senha": "senha"
+}

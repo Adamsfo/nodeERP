@@ -1,4 +1,4 @@
-import { Model, DataTypes, Optional, Sequelize, ModelStatic } from 'sequelize';
+import { Model, DataTypes, Optional, Sequelize } from 'sequelize';
 const bcrypt = require('bcrypt');
 
 // Definindo interfaces para atributos e criação de modelos

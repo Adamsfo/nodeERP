@@ -3,6 +3,7 @@ require('dotenv').config()
 import express from 'express'
 const authRoutes = require('./routes/authRoutes')
 const usuarioRoutes = require('./routes/usuarioRoutes')
+const cidadeRoutes = require('./routes/cidadeRoutes')
 require('./database/index')
 const cors = require('cors')
 const fileupload = require('express-fileupload')
@@ -20,6 +21,7 @@ server.use('/', express.static(publicDir))
 server.use(authRoutes)
 server.use(usuarioRoutes)
 server.use(errorHandler)
+server.use(cidadeRoutes)
 
 server.get('/', (req: any, res: any) => {
     res.send('Hello World');

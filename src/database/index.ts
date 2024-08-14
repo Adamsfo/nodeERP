@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize')
 const dbConfig = require('../config/database')
-// const { UsuarioInit } = require('../models/Usuario')
+import { EmpresaInit } from '../models/Empresa';
 import { UsuarioInit } from '../models/Usuario'
+import { CidadeInit } from '../models/Cidade';
 const ConfigIniciais = require('./ConfigIniciais')
 
 const connection = new Sequelize(dbConfig);
@@ -12,8 +13,10 @@ const connection = new Sequelize(dbConfig);
     await connection.authenticate();
     console.log('Conectado no banco de dados!');
 
-    // Inicializando modelos
+    // Inicializando modelos    
     UsuarioInit(connection)
+    CidadeInit(connection)
+    EmpresaInit(connection)
     
     // Sincronizando os modelos com o banco de dados        
     await connection.sync({ alter: true });

@@ -25,7 +25,11 @@ module.exports = {
       }
 
       const token = generateToken(usuario);
-      return res.status(200).json({ token });
+      res.status(200).json({
+        data: token       
+      });
+
+      // return res.status(200).json({ token });
     } catch (error) {
       next(error);
     }

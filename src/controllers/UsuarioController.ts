@@ -1,4 +1,3 @@
-const { validationResult } = require('express-validator')
 import { FuncaoUsuario, Usuario, UsuarioFuncao } from '../models/Usuario'
 import { getRegistros } from "../utils/getRegistros"
 const CustomError = require('../utils/customError')
