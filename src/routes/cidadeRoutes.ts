@@ -4,5 +4,7 @@ const { authenticate } = require('../middlewares/authMiddleware')
 const CidadeController = require('../controllers/CidadeController')
 
 router.get('/cidade', authenticate, CidadeController.getCidade)
+router.put('/cidade/:id', authenticate, CidadeController.editCidade)
+router.post('/cidade', authenticate, CidadeController.addCidade)
 
 module.exports = router

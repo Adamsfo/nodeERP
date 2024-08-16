@@ -26,7 +26,7 @@ class Cidade extends Model<CidadeAttributes, CidadeCreationAttributes> implement
             },
             uf: {
                 type: DataTypes.STRING,
-                allowNull: false,
+                allowNull: false,                
                 validate: {
                     len: [2, 2]
                 }
@@ -35,7 +35,14 @@ class Cidade extends Model<CidadeAttributes, CidadeCreationAttributes> implement
             sequelize,
             modelName: "Cidade",
             freezeTableName: true,
-            timestamps: false
+            timestamps: false,
+            hooks: {
+                beforeSave: (cidade) => {
+                    if (cidade.uf) {
+                        cidade.uf = cidade.uf.toUpperCase();
+                    }
+                }
+            }
         });
     }
 }

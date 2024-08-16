@@ -1,5 +1,9 @@
+GET http://localhost:9000/usuario?page=1&pageSize=10&sortBy=email&order=asc&search=a
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZGFtczMyMjF3MjJAZW1haWwuY29tIiwiaWF0IjoxNzIzNjUzNjkyLCJleHAiOjE3MjM2NTcyOTJ9.7hYfyoznwU3aatpOmEtm8tPvzJkKtTU6OHD4GRGlfKU
+
+###
 GET http://localhost:9000/usuario?page=1&pageSize=10&sortBy=email&order=asc&filters={"email":"admin"}
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZGFtczMyMjF3MjJAZW1haWwuY29tIiwiaWF0IjoxNzIzNTUzMjA5LCJleHAiOjE3MjM1NTY4MDl9.cgHMQ3Uso4NVIC1VbKOO-0zkhIso2nOsJG-0_SDDtWw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZGFtczMyMjF3MjJAZW1haWwuY29tIiwiaWF0IjoxNzIzNjUzNjkyLCJleHAiOjE3MjM2NTcyOTJ9.7hYfyoznwU3aatpOmEtm8tPvzJkKtTU6OHD4GRGlfKU
 
 ###
 GET http://localhost:9000/usuariofuncao?page=1&pageSize=10&order=asc

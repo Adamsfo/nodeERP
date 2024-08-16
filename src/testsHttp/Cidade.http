@@ -16,3 +16,27 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiO
   "login": "adams2212w3",  
   "senha": "senha"
 }
+
+
+###
+PUT  http://localhost:9000/cidade/1100049
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZGFtczMyMjF3MjJAZW1haWwuY29tIiwiaWF0IjoxNzIzNzY2MjQwLCJleHAiOjE3MjM3Njk4NDB9.gy210N5WGTa8K3OPQsAnSFtT0iv_0NgJSQ3-dtcIXg0
+
+{
+  "descricao": "teste"
+}
+
+
+###
+POST http://localhost:9000/cidade
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZGFtczMyMjF3MjJAZW1haWwuY29tIiwiaWF0IjoxNzIzNzY2MjQwLCJleHAiOjE3MjM3Njk4NDB9.gy210N5WGTa8K3OPQsAnSFtT0iv_0NgJSQ3-dtcIXg0
+
+{
+  "descricao": "adams2@email.com",
+  "uf": "MT"
+
+}
