@@ -1,0 +1,55 @@
+GET http://localhost:9000/clientefornecedor?page=1&pageSize=10&sortBy=id&order=desc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkB0YW56dGVjbm9sb2dpYS5jb20uYnIiLCJpYXQiOjE3MjQyODI3MDQsImV4cCI6MTcyNDI4NjMwNH0.qNI6zKmNgkaJ0D9kHfIlnDd-04FXoctaAE_TrnCeCRk
+
+###
+GET http://localhost:9000/clientefornecedor?page=1&pageSize=10&sortBy=id&order=desc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZGFtczMyMjF3MjJAZW1haWwuY29tIiwiaWF0IjoxNzIzNTc5NjU5LCJleHAiOjE3MjM1ODMyNTl9.yrWlmkE8PRcX8R8wxflvc-zFQJvv8ucGBHnj14RzxdE
+
+
+###
+POST http://localhost:9000/login
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhZGFtczMyMjEyMkBlbWFpbC5jb20iLCJpYXQiOjE3MjI1MTM2ODUsImV4cCI6MTcyMjUxNzI4NX0.ppsrnaaIsIVGnZdguH9hby3w4akRqYlVtxl00Q4C_-E
+
+{
+  "login": "Admin",  
+  "senha": "123456"
+}
+
+###
+PUT http://localhost:9000/clientefornecedor/1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkB0YW56dGVjbm9sb2dpYS5jb20uYnIiLCJpYXQiOjE3MjQyODI3MDQsImV4cCI6MTcyNDI4NjMwNH0.qNI6zKmNgkaJ0D9kHfIlnDd-04FXoctaAE_TrnCeCRk
+
+{  
+  "tipo": "Cliente",
+  "cnpjCpf": "12345678901",
+  "razaoSocialNome": "Cliente Teste",
+  "nomeFantasia": "Cliente Teste",  
+  "consumidorFinal": "Sim",
+  "contribuinte": "Sim"  
+}
+
+
+###
+POST http://localhost:9000/clientefornecedor
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkB0YW56dGVjbm9sb2dpYS5jb20uYnIiLCJpYXQiOjE3MjQyODI3MDQsImV4cCI6MTcyNDI4NjMwNH0.qNI6zKmNgkaJ0D9kHfIlnDd-04FXoctaAE_TrnCeCRk
+
+{
+  "empresaId": "1",
+  "tipo": "Cliente",
+  "cnpjCpf": "12345678901",
+  "razaoSocialNome": "Cliente Teste",
+  "consumidorFinal": "Sim",
+  "contribuinte": "Sim"  
+}
+
+###
+DELETE  http://localhost:9000/clientefornecedor/1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkB0YW56dGVjbm9sb2dpYS5jb20uYnIiLCJpYXQiOjE3MjQyODI3MDQsImV4cCI6MTcyNDI4NjMwNH0.qNI6zKmNgkaJ0D9kHfIlnDd-04FXoctaAE_TrnCeCRk

@@ -9,22 +9,22 @@ interface EmpresaAttributes {
     inscricaoMunicipal: string;
     dataInicioAtividades: Date;
     cep: string;
-    endereco?: string;
+    endereco: string;
     numero: string;
     complemento?: string;
-    bairro: string;
+    bairro?: string;
     idCidade: number;
-    logradouro: string;
-    telefone: string;
-    ultimoNumeroNFe: number;
-    ultimoNumeroNFCe: number;
-    numeroSerieNFe: number;
-    numeroSerieNFCe: number;
-    AmbienteNFe: 'Produção' | 'Homologação';
+    logradouro?: string;
+    telefone?: string;
+    ultimoNumeroNFe?: number;
+    ultimoNumeroNFCe?: number;
+    numeroSerieNFe?: number;
+    numeroSerieNFCe?: number;
+    ambienteNFe: 'Produção' | 'Homologação';
     regimeTributario: 'Simples Nacional' | 'Regime Normal';
     tipo: 'principal' | 'filial';
-    CSCID: string;
-    CSC: string;
+    CSCID?: string;
+    CSC?: string;
 }
 
 interface EmpresaCreationAttributes extends Optional<EmpresaAttributes, 'id'> {}
@@ -38,7 +38,7 @@ class Empresa extends Model<EmpresaAttributes, EmpresaCreationAttributes> implem
     public inscricaoMunicipal!: string;
     public dataInicioAtividades!: Date;
     public cep!: string;
-    public endereco?: string;
+    public endereco!: string;
     public numero!: string;
     public complemento?: string;
     public bairro!: string;
@@ -49,7 +49,7 @@ class Empresa extends Model<EmpresaAttributes, EmpresaCreationAttributes> implem
     public ultimoNumeroNFCe!: number;
     public numeroSerieNFe!: number;
     public numeroSerieNFCe!: number;
-    public AmbienteNFe!: 'Produção' | 'Homologação';
+    public ambienteNFe!: 'Produção' | 'Homologação';
     public regimeTributario!: 'Simples Nacional' | 'Regime Normal';
     public tipo!: 'principal' | 'filial';
     public CSCID!: string;
@@ -128,23 +128,23 @@ class Empresa extends Model<EmpresaAttributes, EmpresaCreationAttributes> implem
             },
             ultimoNumeroNFe: {
                 type: DataTypes.INTEGER,
-                allowNull: false,
+                allowNull: true,
                 defaultValue: 0
             },
             ultimoNumeroNFCe: {
                 type: DataTypes.INTEGER,
-                allowNull: false,
+                allowNull: true,
                 defaultValue: 0
             },
             numeroSerieNFe: {
                 type: DataTypes.INTEGER,
-                allowNull: false
+                allowNull: true
             },
             numeroSerieNFCe: {
                 type: DataTypes.INTEGER,
-                allowNull: false
+                allowNull: true
             },
-            AmbienteNFe: {
+            ambienteNFe: {
                 type: DataTypes.ENUM('Produção', 'Homologação'),
                 allowNull: false
             },
@@ -158,11 +158,11 @@ class Empresa extends Model<EmpresaAttributes, EmpresaCreationAttributes> implem
             },
             CSCID: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: true
             },
             CSC: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: true
             }
         }, {
             sequelize,

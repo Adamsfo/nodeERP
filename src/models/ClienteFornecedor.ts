@@ -83,11 +83,11 @@ class ClienteFornecedor extends Model<ClienteFornecedorAttributes, ClienteFornec
             },
             cnae: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: true
             },
             email: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: true
             },
             telefoneFixo: {
                 type: DataTypes.STRING,
