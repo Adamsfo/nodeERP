@@ -55,7 +55,7 @@ class ClienteFornecedor extends Model<ClienteFornecedorAttributes, ClienteFornec
             cnpjCpf: {
                 type: DataTypes.STRING,
                 allowNull: false,
-                unique: true
+                // unique: true
             },
             insEstadual: {
                 type: DataTypes.STRING,

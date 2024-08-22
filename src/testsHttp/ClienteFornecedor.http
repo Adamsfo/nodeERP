@@ -1,5 +1,5 @@
 GET http://localhost:9000/clientefornecedor?page=1&pageSize=10&sortBy=id&order=desc
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkB0YW56dGVjbm9sb2dpYS5jb20uYnIiLCJpYXQiOjE3MjQyODI3MDQsImV4cCI6MTcyNDI4NjMwNH0.qNI6zKmNgkaJ0D9kHfIlnDd-04FXoctaAE_TrnCeCRk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkB0YW56dGVjbm9sb2dpYS5jb20uYnIiLCJpYXQiOjE3MjQyODYzMjMsImV4cCI6MTcyNDI4OTkyM30.v75Nz8xvuXA6bzilt7OlJDWQLxyf5itE-MM3Yera_8M
 
 ###
 GET http://localhost:9000/clientefornecedor?page=1&pageSize=10&sortBy=id&order=desc
@@ -18,10 +18,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiO
 }
 
 ###
-PUT http://localhost:9000/clientefornecedor/1
+PUT http://localhost:9000/clientefornecedor/6
 Content-Type: application/json
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkB0YW56dGVjbm9sb2dpYS5jb20uYnIiLCJpYXQiOjE3MjQyODI3MDQsImV4cCI6MTcyNDI4NjMwNH0.qNI6zKmNgkaJ0D9kHfIlnDd-04FXoctaAE_TrnCeCRk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkB0YW56dGVjbm9sb2dpYS5jb20uYnIiLCJpYXQiOjE3MjQyODYzMjMsImV4cCI6MTcyNDI4OTkyM30.v75Nz8xvuXA6bzilt7OlJDWQLxyf5itE-MM3Yera_8M
 
 {  
   "tipo": "Cliente",
@@ -49,7 +49,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiO
 }
 
 ###
-DELETE  http://localhost:9000/clientefornecedor/1
+DELETE  http://localhost:9000/clientefornecedor/6
 Content-Type: application/json
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkB0YW56dGVjbm9sb2dpYS5jb20uYnIiLCJpYXQiOjE3MjQyODI3MDQsImV4cCI6MTcyNDI4NjMwNH0.qNI6zKmNgkaJ0D9kHfIlnDd-04FXoctaAE_TrnCeCRk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkB0YW56dGVjbm9sb2dpYS5jb20uYnIiLCJpYXQiOjE3MjQyODYzMjMsImV4cCI6MTcyNDI4OTkyM30.v75Nz8xvuXA6bzilt7OlJDWQLxyf5itE-MM3Yera_8M
