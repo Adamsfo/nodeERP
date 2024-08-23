@@ -5,6 +5,7 @@ const authRoutes = require('./routes/authRoutes')
 const usuarioRoutes = require('./routes/usuarioRoutes')
 const cidadeRoutes = require('./routes/cidadeRoutes')
 const ClienteFornecedorRoutes = require('./routes/clienteFornecedorRoutes')
+const empresaRoutes = require('./routes/empresaRoutes')
 require('./database/index')
 const cors = require('cors')
 const fileupload = require('express-fileupload')
@@ -24,6 +25,7 @@ server.use(usuarioRoutes)
 server.use(errorHandler)
 server.use(cidadeRoutes)
 server.use(ClienteFornecedorRoutes)
+server.use(empresaRoutes)
 
 server.get('/', (req: any, res: any) => {
     res.send('Hello World');

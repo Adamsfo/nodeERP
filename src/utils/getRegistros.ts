@@ -34,7 +34,16 @@ export async function getRegistros<T extends Model>(
     const filterConditions: { [key: string]: any } = {};
     if (filters && typeof filters === 'object') {
       for (const [key, value] of Object.entries(filters)) {
-        filterConditions[key] = { [Op.like]: `%${value}%` };
+        console.log(key)
+        if (key.startsWith('empresaId')) {          
+          const ids = typeof value === 'string' ? value.split(',').map(id => parseInt(id.trim(), 10)) : value;
+          if (Array.isArray(ids)) {
+            filterConditions[key] = { [Op.in]: ids };
+          }
+        } else {
+          // Caso contrário, aplica o filtro como LIKE
+          filterConditions[key] = { [Op.like]: `%${value}%` };
+        }
       }
     }
 

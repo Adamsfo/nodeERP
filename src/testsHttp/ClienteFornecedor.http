@@ -18,10 +18,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiO
 }
 
 ###
-PUT http://localhost:9000/clientefornecedor/6
+PUT http://localhost:9000/clientefornecedor/7
 Content-Type: application/json
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkB0YW56dGVjbm9sb2dpYS5jb20uYnIiLCJpYXQiOjE3MjQyODYzMjMsImV4cCI6MTcyNDI4OTkyM30.v75Nz8xvuXA6bzilt7OlJDWQLxyf5itE-MM3Yera_8M
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkB0YW56dGVjbm9sb2dpYS5jb20uYnIiLCJpYXQiOjE3MjQzMjk2MzIsImV4cCI6MTcyNDMzMzIzMn0.T6OYw0oH-Yq_8ulJmd4jh7PcBUeo0kbuCkk18Ya6PVQ
 
 {  
   "tipo": "Cliente",
@@ -37,7 +37,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiO
 POST http://localhost:9000/clientefornecedor
 Content-Type: application/json
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkB0YW56dGVjbm9sb2dpYS5jb20uYnIiLCJpYXQiOjE3MjQyODI3MDQsImV4cCI6MTcyNDI4NjMwNH0.qNI6zKmNgkaJ0D9kHfIlnDd-04FXoctaAE_TrnCeCRk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkB0YW56dGVjbm9sb2dpYS5jb20uYnIiLCJpYXQiOjE3MjQzMjk2MzIsImV4cCI6MTcyNDMzMzIzMn0.T6OYw0oH-Yq_8ulJmd4jh7PcBUeo0kbuCkk18Ya6PVQ
 
 {
   "empresaId": "1",
