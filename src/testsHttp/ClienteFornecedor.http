@@ -37,15 +37,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiO
 POST http://localhost:9000/clientefornecedor
 Content-Type: application/json
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkB0YW56dGVjbm9sb2dpYS5jb20uYnIiLCJpYXQiOjE3MjQzMjk2MzIsImV4cCI6MTcyNDMzMzIzMn0.T6OYw0oH-Yq_8ulJmd4jh7PcBUeo0kbuCkk18Ya6PVQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkB0YW56dGVjbm9sb2dpYS5jb20uYnIiLCJpYXQiOjE3MjQ0NTQwNzIsImV4cCI6MTcyNDQ5NzI3Mn0.Hh6QEr-0Pj-YjSNQNvCxjofnprKrPN-QiXJgzu19-_w
 
 {
-  "empresaId": "1",
-  "tipo": "Cliente",
-  "cnpjCpf": "12345678901",
+  "empresaId": "1",  
+  "cnpjCpf": "12345678906",
   "razaoSocialNome": "Cliente Teste",
-  "consumidorFinal": "Sim",
-  "contribuinte": "Sim"  
+  "consumidorFinal": "Sim"
 }
 
 ###

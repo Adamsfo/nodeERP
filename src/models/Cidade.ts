@@ -26,7 +26,7 @@ class Cidade extends Model<CidadeAttributes, CidadeCreationAttributes> implement
             },
             uf: {
                 type: DataTypes.STRING,
-                allowNull: false,                
+                allowNull: false,
                 validate: {
                     len: [2, 2]
                 }

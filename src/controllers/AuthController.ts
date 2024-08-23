@@ -8,7 +8,7 @@ module.exports = {
       const { login, senha } = req.body;
 
       if (!login || !senha) {
-        throw new CustomError('Email e senha são obrigatórios.', 400, '');        
+        throw new CustomError('Email e senha são obrigatórios.', 400, '');
       }
 
       const isEmail = login.includes('@')
@@ -21,12 +21,12 @@ module.exports = {
       }
 
       if (!usuario || !(await usuario.verifyPassword(senha))) {
-        throw new CustomError('Credenciais inválidas.', 401, '');        
+        throw new CustomError('Credenciais inválidas.', 401, '');
       }
 
       const token = generateToken(usuario);
       res.status(200).json({
-        data: token       
+        data: token
       });
 
       // return res.status(200).json({ token });

@@ -65,8 +65,8 @@ Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhZGFtczMyMjEyMkBlbWFpbC5jb20iLCJpYXQiOjE3MjI1MTM2ODUsImV4cCI6MTcyMjUxNzI4NX0.ppsrnaaIsIVGnZdguH9hby3w4akRqYlVtxl00Q4C_-E
 
 {
-  "login": "adams2212w3",  
-  "senha": "senha"
+  "login": "adams@tanztecnologia.com.br",  
+  "senha": "123"
 }
 
 

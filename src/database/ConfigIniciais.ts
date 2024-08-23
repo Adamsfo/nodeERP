@@ -23,19 +23,19 @@ module.exports = {
         })
 
         const usuario = await Usuario.findOrCreate({
-            where : {
+            where: {
                 login: "Admin",
-                email: "admin@tanztecnologia.com.br",                   
+                email: "admin@tanztecnologia.com.br",
             },
             defaults: {
                 login: "Admin",
                 email: "admin@tanztecnologia.com.br",
-                senha: "123456",                
+                senha: "123456",
                 ativo: true,
                 alterarSenha: false,
-                nomeCompleto: "Administrador Tanz"             
+                nomeCompleto: "Administrador Tanz"
             }
-        })      
+        })
 
         const usuarioAcesso = await UsuarioFuncao.findOrCreate({
             where: {
@@ -61,11 +61,11 @@ module.exports = {
                 complemento: "",
                 bairro: "Bairro Teste",
                 idCidade: 1100015,
-                logradouro: "Rua Teste",                
+                logradouro: "Rua Teste",
                 telefone: "1234567890",
                 regimeTributario: 'Simples Nacional',
                 ambienteNFe: 'Homologação',
-                tipo: 'principal'                
+                tipo: 'principal'
             }
         })
 
@@ -86,11 +86,11 @@ module.exports = {
                 complemento: "2",
                 bairro: "Bairro Te2ste",
                 idCidade: 1100015,
-                logradouro: "Rua Te2ste",                
+                logradouro: "Rua Te2ste",
                 telefone: "12345678290",
                 regimeTributario: 'Simples Nacional',
                 ambienteNFe: 'Homologação',
-                tipo: 'principal'                
+                tipo: 'principal'
             }
         })
     }

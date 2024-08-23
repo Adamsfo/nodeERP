@@ -19,9 +19,9 @@ const connection = new Sequelize(dbConfig);
     console.log('Conectado no banco de dados!');
 
     // Inicializando modelos    
+    EmpresaInit(connection)
     UsuarioInit(connection)
     CidadeInit(connection)
-    EmpresaInit(connection)
     VeiculoInit(connection)
     ClienteFornecedorInit(connection)
     ContaAPagarInit(connection)

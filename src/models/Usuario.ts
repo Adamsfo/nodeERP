@@ -1,4 +1,5 @@
 import { Model, DataTypes, Optional, Sequelize } from 'sequelize';
+import { Empresa } from './Empresa';
 const bcrypt = require('bcrypt');
 
 // Definindo interfaces para atributos e criação de modelos
@@ -242,6 +243,59 @@ class UsuarioFuncao extends Model<UsuarioFuncaoAttributes, UsuarioFuncaoCreation
     }
 }
 
+interface UsuarioEmpresaAttributes {
+    id: number;
+    usuarioId: number;
+    empresaId: number;
+}
+
+interface UsuarioEmpresaCreationAttributes extends Optional<UsuarioEmpresaAttributes, 'id'> {}
+
+class UsuarioEmpresa extends Model<UsuarioEmpresaAttributes, UsuarioEmpresaCreationAttributes> implements UsuarioEmpresaAttributes {
+    public id!: number;
+    public usuarioId!: number;
+    public empresaId!: number;
+
+    static initialize(sequelize: Sequelize) {
+        UsuarioEmpresa.init({
+            id: {
+                type: DataTypes.INTEGER,
+                autoIncrement: true,
+                primaryKey: true
+            },
+            usuarioId: {
+                type: DataTypes.INTEGER,
+                references: {
+                    model: Usuario,
+                    key: 'id'
+                }
+            },
+            empresaId: {
+                type: DataTypes.INTEGER,
+                references: {
+                    model: Empresa,
+                    key: 'id'
+                }
+            }
+        }, {
+            sequelize,
+            modelName: "UsuarioEmpresa",
+            freezeTableName: true
+        });
+    }
+
+    static associate(models: any) {
+        UsuarioEmpresa.belongsTo(models.Usuario, {
+            foreignKey: 'usuarioId',
+            as: 'usuario'
+        });
+        UsuarioEmpresa.belongsTo(models.Empresa, {
+            foreignKey: 'empresaId',
+            as: 'empresa'
+        });
+    }
+}
+
 // Função para inicializar todos os modelos
 export const UsuarioInit = (sequelize: Sequelize) => {
     FuncaoSistema.initialize(sequelize);
@@ -252,6 +306,8 @@ export const UsuarioInit = (sequelize: Sequelize) => {
     Usuario.associate({ UsuarioFuncao });
     FuncaoUsuario.associate({ UsuarioFuncao });
     UsuarioFuncao.associate({ Usuario, FuncaoUsuario });
+    UsuarioEmpresa.initialize(sequelize);
+    UsuarioEmpresa.associate({Usuario, Empresa})
 }
 
 export {
