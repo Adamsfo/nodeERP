@@ -1,7 +1,7 @@
 const { ValidationError } = require('sequelize');
 
 const errorHandler = (err: any, req: any, res: any, next: any) => {
-  console.error(err);
+  // res.setHeader('Content-Type', 'application/json');
 
   if (err instanceof ValidationError) {
     // Erro de validação do Sequelize
@@ -32,6 +32,7 @@ const errorHandler = (err: any, req: any, res: any, next: any) => {
 
   // Tratamento de erros genéricos
   if (err.isOperational) {
+
     res.status(err.statusCode).json({
       status: err.status,
       message: err.message,

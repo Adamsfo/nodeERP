@@ -22,10 +22,12 @@ server.use(fileupload())
 server.use('/', express.static(publicDir))
 server.use(authRoutes)
 server.use(usuarioRoutes)
-server.use(errorHandler)
 server.use(cidadeRoutes)
 server.use(ClienteFornecedorRoutes)
 server.use(empresaRoutes)
+
+// erros
+server.use(errorHandler)
 
 server.get('/', (req: any, res: any) => {
     res.send('Hello World');
