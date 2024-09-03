@@ -3,11 +3,20 @@ const router = express.Router()
 const { authenticate } = require('../middlewares/authMiddleware')
 const UsuarioController = require('../controllers/UsuarioController')
 
-// router.get('/senha', Auth.private, UsuarioController.index)
+router.get('/funcaosistema', authenticate, UsuarioController.getFuncaoSistema)
+
 router.get('/usuario', authenticate, UsuarioController.getUsuario)
-router.get('/usuariofuncao', authenticate, UsuarioController.getUsuarioFuncao)
 router.post('/usuario', authenticate, UsuarioController.addUsuario)
 router.put('/usuario/:id', authenticate, UsuarioController.editUsuario)
 router.delete('/usuario/:id', authenticate, UsuarioController.deleteUsuario)
+
+router.get('/funcaousuario', authenticate, UsuarioController.getFuncaoUsuario)
+router.post('/funcaousuario', authenticate, UsuarioController.addFuncaoUsuario)
+router.put('/funcaousuario/:id', authenticate, UsuarioController.editFuncaoUsuario)
+router.delete('/funcaousuario/:id', authenticate, UsuarioController.deleteFuncaoUsuario)
+
+router.get('/funcaousuarioacesso', authenticate, UsuarioController.getFuncaoUsuarioAcesso)
+router.post('/funcaousuarioacesso', authenticate, UsuarioController.addFuncaoUsuarioAcesso)
+router.delete('/funcaousuarioacesso/:id', authenticate, UsuarioController.deleteFuncaoUsuarioAcesso)
 
 module.exports = router

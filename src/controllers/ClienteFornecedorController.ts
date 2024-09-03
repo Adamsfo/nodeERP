@@ -14,7 +14,7 @@ module.exports = {
                 contribuinte, cnae, email, telefoneFixo, telefoneCelular, telefoneAlternativo, telefoneWhatsApp } = req.body;
 
             //   // Validação básica
-            if (!empresaId || !tipo || !cnpjCpf || !razaoSocialNome || !consumidorFinal || !contribuinte) {
+            if (!empresaId || !tipo || !cnpjCpf || !consumidorFinal || !contribuinte) {
                 throw new CustomError('Faltando informações em campos obrigatórios.', 400, '');
             }
 

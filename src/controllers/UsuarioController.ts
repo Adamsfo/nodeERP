@@ -1,4 +1,4 @@
-import { FuncaoUsuario, Usuario, UsuarioFuncao } from '../models/Usuario'
+import { FuncaoSistema, FuncaoUsuario, FuncaoUsuarioAcesso, Usuario } from '../models/Usuario'
 import { getRegistros } from "../utils/getRegistros"
 const CustomError = require('../utils/customError')
 
@@ -7,17 +7,9 @@ module.exports = {
     await getRegistros(Usuario, req, res, next)
   },
 
-  async getUsuarioFuncao(req: any, res: any, next: any) {
-    await getRegistros(UsuarioFuncao, req, res, next, 
-      [
-        { model: Usuario, as: 'usuario', attributes: ['login', 'email'] },
-        { model: FuncaoUsuario, as: 'funcaoUsuario', attributes: ['funcaoUsuario'] },
-      ])
-  },
-
   async addUsuario(req: any, res: any, next: any) {
     try {
-      const { email, login, senha, nomeCompleto } = req.body;
+      const { email, login, senha, nomeCompleto, idFuncaoUsuario } = req.body;
 
       // Validação básica
       if (!email || !login || !senha || !nomeCompleto) {
@@ -28,7 +20,7 @@ module.exports = {
       const ativo = true
       const alterarSenha = true
 
-      const registro = await Usuario.create({ email, login, senha, nomeCompleto, ativo, alterarSenha });
+      const registro = await Usuario.create({ email, login, senha, nomeCompleto, ativo, alterarSenha, idFuncaoUsuario });
       return res.status(201).json(registro);
     } catch (error) {
       next(error);
@@ -38,7 +30,7 @@ module.exports = {
   async editUsuario(req: any, res: any, next: any) {
     try {
       const id = req.params.id;
-      const { email, login, senha, nomeCompleto, ativo, alterarSenha } = req.body;
+      const { email, login, senha, nomeCompleto, ativo, alterarSenha, idFuncaoUsuario } = req.body;
 
       // Validação dos dados (exemplo simples)
       if (!id) {
@@ -62,6 +54,7 @@ module.exports = {
       if (login) registro.login = login;
       if (senha) registro.senha = senha;
       if (nomeCompleto) registro.nomeCompleto = nomeCompleto;
+      if (idFuncaoUsuario) registro.idFuncaoUsuario = idFuncaoUsuario;
       if (ativo !== undefined) registro.ativo = ativo;
       if (alterarSenha !== undefined) registro.alterarSenha = alterarSenha;
 
@@ -95,5 +88,115 @@ module.exports = {
     } catch (error) {
       next(error); // Passa o erro para o middleware de tratamento de erros
     }
-  }
+  },
+
+  async getFuncaoUsuario(req: any, res: any, next: any) {
+    await getRegistros(FuncaoUsuario, req, res, next)
+  },
+
+  async addFuncaoUsuario(req: any, res: any, next: any) {
+    try {
+      const { funcaoUsuario } = req.body;
+
+      //   // Validação básica
+      if (!funcaoUsuario) {
+        throw new CustomError('Faltando informações em campos obrigatórios.', 400, '');
+      }
+
+      const registro = await FuncaoUsuario.create({ funcaoUsuario });
+      return res.status(201).json(registro);
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async editFuncaoUsuario(req: any, res: any, next: any) {
+    try {
+      const id = req.params.id;
+      const { funcaoUsuario } = req.body;
+
+      const registro = await FuncaoUsuario.findByPk(id);
+      if (!registro) {
+        throw new CustomError('Registro não encontrado.', 404, '');
+      }
+
+      // Atualizar os campos permitidos
+      if (funcaoUsuario) registro.funcaoUsuario = funcaoUsuario;
+
+      await registro.save();
+      return res.status(200).json(registro);
+    } catch (error) {
+      next(error); // Passa o erro para o middleware de tratamento de erros
+    }
+  },
+
+  async deleteFuncaoUsuario(req: any, res: any, next: any) {
+    try {
+      const id = req.params.id;
+
+      if (!id) {
+        throw new CustomError('ID do registro é obrigatório.', 400, '');
+      }
+
+      // Verificar se o usuário existe
+      const registro = await FuncaoUsuario.findByPk(id);
+      if (!registro) {
+        throw new CustomError('Registro não encontrado.', 404, '');
+        // return res.status(404).json({ message: 'Usuário não encontrado.' });
+      }
+
+      // Deletar o usuário
+      await registro.destroy();
+
+      return res.status(200).json({ message: 'Registro deletado com sucesso.' });
+    } catch (error) {
+      next(error); // Passa o erro para o middleware de tratamento de erros
+    }
+  },
+
+  async getFuncaoUsuarioAcesso(req: any, res: any, next: any) {
+    await getRegistros(FuncaoUsuarioAcesso, req, res, next)
+  },
+
+  async addFuncaoUsuarioAcesso(req: any, res: any, next: any) {
+    try {
+      const { idFuncaoSistema, idFuncaoUsuario } = req.body;
+
+      //   // Validação básica
+      if (!idFuncaoSistema || !idFuncaoUsuario) {
+        throw new CustomError('Faltando informações em campos obrigatórios.', 400, '');
+      }
+
+      const registro = await FuncaoUsuarioAcesso.create({ idFuncaoSistema, idFuncaoUsuario });
+      return res.status(201).json(registro);
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async deleteFuncaoUsuarioAcesso(req: any, res: any, next: any) {
+    try {
+      const id = req.params.id;
+
+      if (!id) {
+        throw new CustomError('ID do registro é obrigatório.', 400, '');
+      }
+
+      // Verificar se o usuário existe
+      const registro = await FuncaoUsuarioAcesso.findByPk(id);
+      if (!registro) {
+        throw new CustomError('Registro não encontrado.', 404, '');
+      }
+
+      await registro.destroy();
+
+      return res.status(200).json({ message: 'Registro deletado com sucesso.' });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async getFuncaoSistema(req: any, res: any, next: any) {
+    await getRegistros(FuncaoSistema, req, res, next)
+  },
 }

@@ -57,27 +57,27 @@ module.exports = {
   },
 
   async deleteCidade(req: any, res: any, next: any) {
-    //   try {
-    //     const id = req.params.id;
+    try {
+      const id = req.params.id;
 
-    //     if (!id) {
-    //       throw new CustomError('ID do usuário é obrigatório.', 400, '');
-    //       // return res.status(400).json({ message: 'ID do usuário é obrigatório.' });
-    //     }
+      if (!id) {
+        throw new CustomError('ID é obrigatório.', 400, '');
+        // return res.status(400).json({ message: 'ID do usuário é obrigatório.' });
+      }
 
-    //     // Verificar se o usuário existe
-    //     const registro = await Usuario.findByPk(id);
-    //     if (!registro) {
-    //       throw new CustomError('Usuário não encontrado.', 404, '');
-    //       // return res.status(404).json({ message: 'Usuário não encontrado.' });
-    //     }
+      // Verificar se o usuário existe
+      const registro = await Cidade.findByPk(id);
+      if (!registro) {
+        throw new CustomError('Registro não encontrado.', 404, '');
+        // return res.status(404).json({ message: 'Usuário não encontrado.' });
+      }
 
-    //     // Deletar o usuário
-    //     await registro.destroy();
+      // Deletar o usuário
+      await registro.destroy();
 
-    //     return res.status(200).json({ message: 'Usuário deletado com sucesso.' });
-    //   } catch (error) {
-    //     next(error); // Passa o erro para o middleware de tratamento de erros
-    //   }
+      return res.status(200).json({ message: 'Regsitro deletado com sucesso.' });
+    } catch (error) {
+      next(error); // Passa o erro para o middleware de tratamento de erros
+    }
   }
 }

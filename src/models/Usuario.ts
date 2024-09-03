@@ -8,7 +8,7 @@ interface FuncaoSistemaAttributes {
     funcaoSistema: string;
 }
 
-interface FuncaoSistemaCreationAttributes extends Optional<FuncaoSistemaAttributes, 'id'> {}
+interface FuncaoSistemaCreationAttributes extends Optional<FuncaoSistemaAttributes, 'id'> { }
 
 class FuncaoSistema extends Model<FuncaoSistemaAttributes, FuncaoSistemaCreationAttributes> implements FuncaoSistemaAttributes {
     public id!: number;
@@ -39,7 +39,7 @@ interface FuncaoUsuarioAttributes {
     funcaoUsuario: string;
 }
 
-interface FuncaoUsuarioCreationAttributes extends Optional<FuncaoUsuarioAttributes, 'id'> {}
+interface FuncaoUsuarioCreationAttributes extends Optional<FuncaoUsuarioAttributes, 'id'> { }
 
 class FuncaoUsuario extends Model<FuncaoUsuarioAttributes, FuncaoUsuarioCreationAttributes> implements FuncaoUsuarioAttributes {
     public id!: number;
@@ -65,9 +65,9 @@ class FuncaoUsuario extends Model<FuncaoUsuarioAttributes, FuncaoUsuarioCreation
     }
 
     static associate(models: any) {
-        FuncaoUsuario.hasMany(models.UsuarioFuncao, {
+        FuncaoUsuario.hasMany(models.Usuario, {
             foreignKey: 'idFuncaoUsuario',
-            as: 'usuarios'
+            as: 'usuario'
         });
     }
 }
@@ -78,7 +78,7 @@ interface FuncaoUsuarioAcessoAttributes {
     idFuncaoUsuario: number;
 }
 
-interface FuncaoUsuarioAcessoCreationAttributes extends Optional<FuncaoUsuarioAcessoAttributes, 'id'> {}
+interface FuncaoUsuarioAcessoCreationAttributes extends Optional<FuncaoUsuarioAcessoAttributes, 'id'> { }
 
 class FuncaoUsuarioAcesso extends Model<FuncaoUsuarioAcessoAttributes, FuncaoUsuarioAcessoCreationAttributes> implements FuncaoUsuarioAcessoAttributes {
     public id!: number;
@@ -123,9 +123,10 @@ interface UsuarioAttributes {
     ativo?: boolean;
     alterarSenha?: boolean;
     token?: string;
+    idFuncaoUsuario?: number;
 }
 
-interface UsuarioCreationAttributes extends Optional<UsuarioAttributes, 'id' | 'senha'> {}
+interface UsuarioCreationAttributes extends Optional<UsuarioAttributes, 'id' | 'senha'> { }
 
 class Usuario extends Model<UsuarioAttributes, UsuarioCreationAttributes> implements UsuarioAttributes {
     public id!: number;
@@ -136,6 +137,7 @@ class Usuario extends Model<UsuarioAttributes, UsuarioCreationAttributes> implem
     public ativo?: boolean;
     public alterarSenha?: boolean;
     public token?: string;
+    public idFuncaoUsuario?: number;
 
     static initialize(sequelize: Sequelize) {
         Usuario.init({
@@ -162,7 +164,15 @@ class Usuario extends Model<UsuarioAttributes, UsuarioCreationAttributes> implem
                 type: DataTypes.BOOLEAN,
                 defaultValue: false
             },
-            token: DataTypes.STRING
+            token: DataTypes.STRING,
+            idFuncaoUsuario: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                references: {
+                    model: FuncaoUsuario,
+                    key: 'id'
+                }
+            }
         }, {
             sequelize,
             modelName: "Usuario",
@@ -174,13 +184,13 @@ class Usuario extends Model<UsuarioAttributes, UsuarioCreationAttributes> implem
                     }
                 }
             }
-        });        
+        });
     }
 
     static associate(models: any) {
-        Usuario.hasMany(models.UsuarioFuncao, {
-            foreignKey: 'idUsuario',
-            as: 'funcoes'
+        Usuario.belongsTo(models.FuncaoUsuario, {
+            foreignKey: 'idFuncaoUsuario',
+            as: 'funcaoUsuario'
         });
     }
 
@@ -190,58 +200,58 @@ class Usuario extends Model<UsuarioAttributes, UsuarioCreationAttributes> implem
     }
 }
 
-interface UsuarioFuncaoAttributes {
-    id: number;
-    idUsuario: number;
-    idFuncaoUsuario: number;
-}
+// interface UsuarioFuncaoAttributes {
+//     id: number;
+//     idUsuario: number;
+//     idFuncaoUsuario: number;
+// }
 
-interface UsuarioFuncaoCreationAttributes extends Optional<UsuarioFuncaoAttributes, 'id'> {}
+// interface UsuarioFuncaoCreationAttributes extends Optional<UsuarioFuncaoAttributes, 'id'> { }
 
-class UsuarioFuncao extends Model<UsuarioFuncaoAttributes, UsuarioFuncaoCreationAttributes> implements UsuarioFuncaoAttributes {
-    public id!: number;
-    public idUsuario!: number;
-    public idFuncaoUsuario!: number;
+// class UsuarioFuncao extends Model<UsuarioFuncaoAttributes, UsuarioFuncaoCreationAttributes> implements UsuarioFuncaoAttributes {
+//     public id!: number;
+//     public idUsuario!: number;
+//     public idFuncaoUsuario!: number;
 
-    static initialize(sequelize: Sequelize) {
-        UsuarioFuncao.init({
-            id: {
-                type: DataTypes.INTEGER,
-                autoIncrement: true,
-                primaryKey: true
-            },
-            idUsuario: {
-                type: DataTypes.INTEGER,
-                references: {
-                    model: Usuario,
-                    key: 'id'
-                }
-            },
-            idFuncaoUsuario: {
-                type: DataTypes.INTEGER,
-                references: {
-                    model: FuncaoUsuario,
-                    key: 'id'
-                }
-            }
-        }, {
-            sequelize,
-            modelName: "UsuarioFuncao",
-            freezeTableName: true
-        });
-    }   
-    
-    static associate(models: any) {
-        UsuarioFuncao.belongsTo(models.Usuario, {
-            foreignKey: 'idUsuario',
-            as: 'usuario'
-        });
-        UsuarioFuncao.belongsTo(models.FuncaoUsuario, {
-            foreignKey: 'idFuncaoUsuario',
-            as: 'funcaoUsuario'
-        });
-    }
-}
+//     static initialize(sequelize: Sequelize) {
+//         UsuarioFuncao.init({
+//             id: {
+//                 type: DataTypes.INTEGER,
+//                 autoIncrement: true,
+//                 primaryKey: true
+//             },
+//             idUsuario: {
+//                 type: DataTypes.INTEGER,
+//                 references: {
+//                     model: Usuario,
+//                     key: 'id'
+//                 }
+//             },
+//             idFuncaoUsuario: {
+//                 type: DataTypes.INTEGER,
+//                 references: {
+//                     model: FuncaoUsuario,
+//                     key: 'id'
+//                 }
+//             }
+//         }, {
+//             sequelize,
+//             modelName: "UsuarioFuncao",
+//             freezeTableName: true
+//         });
+//     }
+
+//     static associate(models: any) {
+//         UsuarioFuncao.belongsTo(models.Usuario, {
+//             foreignKey: 'idUsuario',
+//             as: 'usuario'
+//         });
+//         UsuarioFuncao.belongsTo(models.FuncaoUsuario, {
+//             foreignKey: 'idFuncaoUsuario',
+//             as: 'funcaoUsuario'
+//         });
+//     }
+// }
 
 interface UsuarioEmpresaAttributes {
     id: number;
@@ -249,7 +259,7 @@ interface UsuarioEmpresaAttributes {
     empresaId: number;
 }
 
-interface UsuarioEmpresaCreationAttributes extends Optional<UsuarioEmpresaAttributes, 'id'> {}
+interface UsuarioEmpresaCreationAttributes extends Optional<UsuarioEmpresaAttributes, 'id'> { }
 
 class UsuarioEmpresa extends Model<UsuarioEmpresaAttributes, UsuarioEmpresaCreationAttributes> implements UsuarioEmpresaAttributes {
     public id!: number;
@@ -302,12 +312,12 @@ export const UsuarioInit = (sequelize: Sequelize) => {
     FuncaoUsuario.initialize(sequelize);
     FuncaoUsuarioAcesso.initialize(sequelize);
     Usuario.initialize(sequelize);
-    UsuarioFuncao.initialize(sequelize);
-    Usuario.associate({ UsuarioFuncao });
-    FuncaoUsuario.associate({ UsuarioFuncao });
-    UsuarioFuncao.associate({ Usuario, FuncaoUsuario });
     UsuarioEmpresa.initialize(sequelize);
-    UsuarioEmpresa.associate({Usuario, Empresa})
+
+    // Associações entre os modelos
+    FuncaoUsuario.associate({ Usuario });
+    Usuario.associate({ FuncaoUsuario });
+    UsuarioEmpresa.associate({ Usuario, Empresa });
 }
 
 export {
@@ -315,5 +325,4 @@ export {
     FuncaoUsuario,
     FuncaoUsuarioAcesso,
     Usuario,
-    UsuarioFuncao
 };

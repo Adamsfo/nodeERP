@@ -6,8 +6,8 @@ GET http://localhost:9000/usuario?page=1&pageSize=10&sortBy=email&order=asc&filt
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZGFtczMyMjF3MjJAZW1haWwuY29tIiwiaWF0IjoxNzIzNjUzNjkyLCJleHAiOjE3MjM2NTcyOTJ9.7hYfyoznwU3aatpOmEtm8tPvzJkKtTU6OHD4GRGlfKU
 
 ###
-GET http://localhost:9000/usuariofuncao?page=1&pageSize=10&order=asc
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhZGFtczMyMjEyMkBlbWFpbC5jb20iLCJpYXQiOjE3MjI5NTE0NDgsImV4cCI6MTcyMjk1NTA0OH0.5wLCkDOtlqB3IeT6pV8z88qePhE5IYfDl4xkFkOvxVA
+GET http://localhost:9000/funcaousuario?page=1&pageSize=10&order=asc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhZGFtc0B0YW56dGVjbm9sb2dpYS5jb20uYnIiLCJpYXQiOjE3MjUwMzEwNDcsImV4cCI6MTcyNTA3NDI0N30.eM5uteXWJbcoWy35xI33f-8vycmcM1MDc8vTvqWIft8
 
 
 GET http://localhost:9000/usuario?page=1&pageSize=10&search=test&sortBy=email&order=asc&filters={"ativo":"1"}

@@ -9,6 +9,7 @@ import { ContaAPagarInit } from '../models/ContaAPagar';
 import { ContaAReceberInit } from '../models/ContaAReceber';
 import { ContaBancariaInit } from '../models/ContaBancaria';
 const ConfigIniciais = require('./ConfigIniciais')
+const FuncaoSistema = require('./FuncaoSistema')
 
 const connection = new Sequelize(dbConfig);
 
@@ -22,18 +23,19 @@ const connection = new Sequelize(dbConfig);
     EmpresaInit(connection)
     UsuarioInit(connection)
     CidadeInit(connection)
-    VeiculoInit(connection)
+    // VeiculoInit(connection)
     ClienteFornecedorInit(connection)
-    ContaAPagarInit(connection)
-    ContaAReceberInit(connection)
-    ContaBancariaInit(connection)
-    
+    // ContaAPagarInit(connection)
+    // ContaAReceberInit(connection)
+    // ContaBancariaInit(connection)
+
     // Sincronizando os modelos com o banco de dados        
     await connection.sync();
     // await connection.sync({ alter: true });
-    
+
     // Executando configurações iniciais
     await ConfigIniciais.configUsuario();
+    await FuncaoSistema.funcaoSistema();
 
   } catch (error) {
     console.error('Banco de dados não conectado:', error);

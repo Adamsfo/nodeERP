@@ -4,11 +4,11 @@ import { Empresa } from './Empresa';
 
 interface ClienteFornecedorAttributes {
     id: number;
-    tipo: 'Cliente' | 'Fornecedor'    
+    tipo: 'Cliente' | 'Fornecedor'
     cnpjCpf: string;
     insEstadual?: string;
     insMunicipal?: string;
-    razaoSocialNome: string;
+    razaoSocialNome?: string;
     nomeFantasia?: string;
     consumidorFinal: 'Sim' | 'Não'
     contribuinte: 'Sim' | 'Não'
@@ -29,7 +29,7 @@ class ClienteFornecedor extends Model<ClienteFornecedorAttributes, ClienteFornec
     public cnpjCpf!: string;
     public insEstadual!: string;
     public insMunicipal!: string;
-    public razaoSocialNome!: string;
+    public razaoSocialNome?: string;
     public nomeFantasia!: string;
     public consumidorFinal!: 'Sim' | 'Não'
     public contribuinte!: 'Sim' | 'Não'
@@ -67,7 +67,7 @@ class ClienteFornecedor extends Model<ClienteFornecedorAttributes, ClienteFornec
             },
             razaoSocialNome: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: true
             },
             nomeFantasia: {
                 type: DataTypes.STRING,
@@ -120,7 +120,7 @@ class ClienteFornecedor extends Model<ClienteFornecedorAttributes, ClienteFornec
         });
     }
 
-    public static associate(models: any) {        
+    public static associate(models: any) {
         ClienteFornecedor.belongsTo(models.Empresa, {
             foreignKey: 'empresaId',
             as: 'empresa',
@@ -234,12 +234,12 @@ class Endereco extends Model<EnderecoAttributes, EnderecoCreationAttributes> imp
             foreignKey: 'cidadeId',
             as: 'cidade'
         });
-    }        
+    }
 }
 
 export const ClienteFornecedorInit = (sequelize: Sequelize) => {
     ClienteFornecedor.initialize(sequelize);
-    ClienteFornecedor.associate({Empresa})
+    ClienteFornecedor.associate({ Empresa })
     Endereco.initialize(sequelize);
     Endereco.associate()
 }
