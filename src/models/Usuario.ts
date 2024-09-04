@@ -112,6 +112,18 @@ class FuncaoUsuarioAcesso extends Model<FuncaoUsuarioAcessoAttributes, FuncaoUsu
             freezeTableName: true
         });
     }
+
+    static associate() {
+        FuncaoUsuarioAcesso.belongsTo(FuncaoSistema, {
+            foreignKey: 'idFuncaoSistema',
+            as: 'funcaoSistema' // Alias para a relação
+        });
+
+        FuncaoUsuarioAcesso.belongsTo(FuncaoUsuario, {
+            foreignKey: 'idFuncaoUsuario',
+            as: 'funcaoUsuario' // Alias para a relação
+        });
+    }
 }
 
 interface UsuarioAttributes {
@@ -318,6 +330,7 @@ export const UsuarioInit = (sequelize: Sequelize) => {
     FuncaoUsuario.associate({ Usuario });
     Usuario.associate({ FuncaoUsuario });
     UsuarioEmpresa.associate({ Usuario, Empresa });
+    FuncaoUsuarioAcesso.associate();
 }
 
 export {

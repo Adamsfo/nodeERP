@@ -155,7 +155,18 @@ module.exports = {
   },
 
   async getFuncaoUsuarioAcesso(req: any, res: any, next: any) {
-    await getRegistros(FuncaoUsuarioAcesso, req, res, next)
+    await getRegistros(FuncaoUsuarioAcesso, req, res, next, [
+      {
+        model: FuncaoSistema,
+        as: 'funcaoSistema',
+        attributes: ['funcaoSistema']
+      },
+      {
+        model: FuncaoUsuario,
+        as: 'funcaoUsuario',
+        attributes: ['funcaoUsuario']
+      }
+    ])
   },
 
   async addFuncaoUsuarioAcesso(req: any, res: any, next: any) {

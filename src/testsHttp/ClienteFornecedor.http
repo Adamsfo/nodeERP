@@ -5,6 +5,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiO
 GET http://localhost:9000/clientefornecedor?page=1&pageSize=10&sortBy=id&order=desc
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZGFtczMyMjF3MjJAZW1haWwuY29tIiwiaWF0IjoxNzIzNTc5NjU5LCJleHAiOjE3MjM1ODMyNTl9.yrWlmkE8PRcX8R8wxflvc-zFQJvv8ucGBHnj14RzxdE
 
+###
+GET http://localhost:9000/funcaousuarioacesso?page=1&pageSize=10&sortBy=id&order=desc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkB0YW56dGVjbm9sb2dpYS5jb20uYnIiLCJpYXQiOjE3MjU0NDkzNjQsImV4cCI6MTcyNTQ5MjU2NH0.c6KADJfXQzCW6CqYjSQ5oXBfOpmS6ILt2G7OYooBKMs
+
 
 ###
 POST http://localhost:9000/login
