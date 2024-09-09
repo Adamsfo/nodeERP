@@ -82,8 +82,15 @@ export async function getRegistros<T extends Model>(
                 plainRow[`${option.as}_${key}`] = associatedData[key];
               });
             }
-            delete plainRow[option.as || ''];
+          } else {
+            // Ensure the attribute is present, even if empty or null
+            if (option.attributes) {
+              option.attributes.forEach(attr => {
+                plainRow[`${option.as}_${attr}`] = null; // Or use an appropriate default value
+              });
+            }
           }
+          delete plainRow[option.as || ''];
         });
       }
       return plainRow;

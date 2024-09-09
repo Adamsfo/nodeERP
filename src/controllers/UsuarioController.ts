@@ -4,7 +4,14 @@ const CustomError = require('../utils/customError')
 
 module.exports = {
   async getUsuario(req: any, res: any, next: any) {
-    await getRegistros(Usuario, req, res, next)
+    console.log('passou aqui')
+    await getRegistros(Usuario, req, res, next, [
+      {
+        model: FuncaoUsuario,
+        as: 'funcaoUsuario',
+        attributes: ['funcaoUsuario'],
+      }
+    ])
   },
 
   async addUsuario(req: any, res: any, next: any) {
