@@ -1,6 +1,6 @@
 import { FuncaoSistema, FuncaoUsuario, FuncaoUsuarioAcesso, Usuario } from '../models/Usuario'
 import { getRegistros } from "../utils/getRegistros"
-const CustomError = require('../utils/customError')
+import { CustomError } from '../utils/customError'
 
 module.exports = {
   async getUsuario(req: any, res: any, next: any) {
@@ -16,7 +16,7 @@ module.exports = {
 
   async addUsuario(req: any, res: any, next: any) {
     try {
-      const { email, login, senha, nomeCompleto, idFuncaoUsuario } = req.body;
+      const { email, login, senha, nomeCompleto, idFuncaoUsuario, ativo, alterarSenha } = req.body;
 
       // Validação básica
       if (!email || !login || !senha || !nomeCompleto) {
@@ -24,10 +24,8 @@ module.exports = {
         throw new CustomError('Os campos email, login, senha, nomeCompleto são obrigatórios.', 400, '');
       }
 
-      const ativo = true
-      const alterarSenha = true
-
       const registro = await Usuario.create({ email, login, senha, nomeCompleto, ativo, alterarSenha, idFuncaoUsuario });
+      console.log(registro)
       return res.status(201).json(registro);
     } catch (error) {
       next(error);
