@@ -41,16 +41,15 @@ Accept: application/json
 
 
 ###
-PUT  http://localhost:9000/usuario/1
+PUT  http://localhost:9000/usuario/2
 Content-Type: application/json
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhZGFtczMyMjEyMkBlbWFpbC5jb20iLCJpYXQiOjE3MjI1MTM2ODUsImV4cCI6MTcyMjUxNzI4NX0.ppsrnaaIsIVGnZdguH9hby3w4akRqYlVtxl00Q4C_-E
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImVtYWlsIjoiYWRhbXMxMEB0YW56dGVjbm9sb2dpYS5jb20uYnIiLCJpYXQiOjE3MjYyMjE4ODYsImV4cCI6MTcyNjI2NTA4Nn0.N-madf_9QhMAFmasYaO3hh87Sw1jSgxZu6oN1dYDjFw
 
 {
-  "email": "exempsdfasdaaaaafoedit@email.com",
-  "ativo": false,
-  "senha": "12345"
-
+  "email": "adams@tanztecnologia.com.br",
+  "ativo": "true",
+  "senha": "123"
 }
 
 
@@ -65,7 +64,7 @@ Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhZGFtczMyMjEyMkBlbWFpbC5jb20iLCJpYXQiOjE3MjI1MTM2ODUsImV4cCI6MTcyMjUxNzI4NX0.ppsrnaaIsIVGnZdguH9hby3w4akRqYlVtxl00Q4C_-E
 
 {
-  "login": "adams@tanztecnologia.com.br",  
+  "login": "adams10@tanztecnologia.com.br",  
   "senha": "123"
 }
 

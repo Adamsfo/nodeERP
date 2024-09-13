@@ -1,6 +1,6 @@
 import { Empresa } from '../models/Empresa';
 import { getRegistros } from "../utils/getRegistros"
-const CustomError = require('../utils/customError')
+// import { CustomError } from '../utils/customError'
 
 
 module.exports = {
@@ -66,24 +66,24 @@ module.exports = {
     async delete(req: any, res: any, next: any) {
         // try {
         //   const id = req.params.id;
-    
+
         //   if (!id) {
         //     throw new CustomError('ID do registro é obrigatório.', 400, '');            
         //   }
-    
+
         //   // Verificar se o usuário existe
         //   const registro = await ClienteFornecedor.findByPk(id);
         //   if (!registro) {
         //     throw new CustomError('Registro não encontrado.', 404, '');
         //     // return res.status(404).json({ message: 'Usuário não encontrado.' });
         //   }
-    
+
         //   // Deletar o usuário
         //   await registro.destroy();
-    
+
         //   return res.status(200).json({ message: 'Registro deletado com sucesso.' });
         // } catch (error) {
         //   next(error); // Passa o erro para o middleware de tratamento de erros
         // }
-      }
+    }
 }

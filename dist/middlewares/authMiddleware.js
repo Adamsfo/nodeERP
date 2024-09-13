@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const jwtUtils_1 = require("../utils/jwtUtils");
-const CustomError = require("../utils/customError");
+// const CustomError = require("../utils/customError");
+import { CustomError } from '../utils/customError'
 const authenticate = (req, res, next) => {
     const authHeader = req.headers.authorization;
     const token = authHeader && authHeader.split(' ')[1]; // Suporta "Bearer <token>"

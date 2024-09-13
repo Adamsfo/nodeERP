@@ -53,7 +53,9 @@ module.exports = {
         throw new CustomError('Este login já foi utilizado por outro usuário .', 400, '');
       }
 
-      registro = await Usuario.create({ login, email, senha, nomeCompleto });
+      let ativo = false
+
+      registro = await Usuario.create({ login, email, senha, nomeCompleto, ativo });
 
       return res.status(201).json(registro);
     } catch (error) {

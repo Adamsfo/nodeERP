@@ -191,7 +191,7 @@ class Usuario extends Model<UsuarioAttributes, UsuarioCreationAttributes> implem
             freezeTableName: true,
             hooks: {
                 beforeSave: async (usuario: Usuario) => {
-                    if (usuario.senha) {
+                    if (usuario.senha && usuario.changed('senha')) {
                         usuario.senha = await bcrypt.hash(usuario.senha, 10);
                     }
                 }
@@ -211,59 +211,6 @@ class Usuario extends Model<UsuarioAttributes, UsuarioCreationAttributes> implem
         return bcrypt.compare(senha, this.senha || '');
     }
 }
-
-// interface UsuarioFuncaoAttributes {
-//     id: number;
-//     idUsuario: number;
-//     idFuncaoUsuario: number;
-// }
-
-// interface UsuarioFuncaoCreationAttributes extends Optional<UsuarioFuncaoAttributes, 'id'> { }
-
-// class UsuarioFuncao extends Model<UsuarioFuncaoAttributes, UsuarioFuncaoCreationAttributes> implements UsuarioFuncaoAttributes {
-//     public id!: number;
-//     public idUsuario!: number;
-//     public idFuncaoUsuario!: number;
-
-//     static initialize(sequelize: Sequelize) {
-//         UsuarioFuncao.init({
-//             id: {
-//                 type: DataTypes.INTEGER,
-//                 autoIncrement: true,
-//                 primaryKey: true
-//             },
-//             idUsuario: {
-//                 type: DataTypes.INTEGER,
-//                 references: {
-//                     model: Usuario,
-//                     key: 'id'
-//                 }
-//             },
-//             idFuncaoUsuario: {
-//                 type: DataTypes.INTEGER,
-//                 references: {
-//                     model: FuncaoUsuario,
-//                     key: 'id'
-//                 }
-//             }
-//         }, {
-//             sequelize,
-//             modelName: "UsuarioFuncao",
-//             freezeTableName: true
-//         });
-//     }
-
-//     static associate(models: any) {
-//         UsuarioFuncao.belongsTo(models.Usuario, {
-//             foreignKey: 'idUsuario',
-//             as: 'usuario'
-//         });
-//         UsuarioFuncao.belongsTo(models.FuncaoUsuario, {
-//             foreignKey: 'idFuncaoUsuario',
-//             as: 'funcaoUsuario'
-//         });
-//     }
-// }
 
 interface UsuarioEmpresaAttributes {
     id: number;
@@ -338,4 +285,5 @@ export {
     FuncaoUsuario,
     FuncaoUsuarioAcesso,
     Usuario,
+    UsuarioEmpresa
 };

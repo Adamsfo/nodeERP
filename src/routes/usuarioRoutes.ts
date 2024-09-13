@@ -19,4 +19,8 @@ router.get('/funcaousuarioacesso', authenticate, UsuarioController.getFuncaoUsua
 router.post('/funcaousuarioacesso', authenticate, UsuarioController.addFuncaoUsuarioAcesso)
 router.delete('/funcaousuarioacesso/:id', authenticate, UsuarioController.deleteFuncaoUsuarioAcesso)
 
+router.get('/usuarioempresa', authenticate, UsuarioController.getUsuarioEmpresa)
+router.post('/usuarioempresa', authenticate, UsuarioController.addUsuarioEmpresa)
+router.delete('/usuarioempresa/:id', authenticate, UsuarioController.deleteUsuarioEmpresa)
+
 module.exports = router
