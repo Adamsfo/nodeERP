@@ -5,25 +5,71 @@ module.exports = {
 
         await FuncaoSistema.findOrCreate({
             where: {
-                funcaoSistema: "Cadastro / Cliente"
+                id: 1,
+                funcaoSistema: "Cadastro / Cliente - Listagem"
             }
         })
 
         await FuncaoSistema.findOrCreate({
             where: {
-                funcaoSistema: "Cadastro / Fornecedor"
+                id: 2,
+                funcaoSistema: "Cadastro / Cliente - Cadastro e Alteração"
             }
         })
 
         await FuncaoSistema.findOrCreate({
             where: {
-                funcaoSistema: "Cadastro / Cidade"
+                id: 3,
+                funcaoSistema: "Cadastro / Fornecedor  - Listagem"
             }
         })
 
-        let funcaoSistema = await FuncaoSistema.findOrCreate({
+        await FuncaoSistema.findOrCreate({
             where: {
-                funcaoSistema: "Config. de Sistema / Função de Usuário"
+                id: 4,
+                funcaoSistema: "Cadastro / Fornecedor - Cadastro e Alteração"
+            }
+        })
+
+        await FuncaoSistema.findOrCreate({
+            where: {
+                id: 5,
+                funcaoSistema: "Cadastro / Cidade  - Listagem"
+            }
+        })
+
+        await FuncaoSistema.findOrCreate({
+            where: {
+                id: 6,
+                funcaoSistema: "Cadastro / Cidade - Cadastro e Alteração"
+            }
+        })
+
+        await FuncaoSistema.findOrCreate({
+            where: {
+                id: 7,
+                funcaoSistema: "Config. de Sistema / Função de Usuário - Listagem"
+            }
+        })
+
+        await FuncaoSistema.findOrCreate({
+            where: {
+                id: 8,
+                funcaoSistema: "Config. de Sistema / Função de Usuário - Cadastro e Alteração"
+            }
+        })
+
+        await FuncaoSistema.findOrCreate({
+            where: {
+                id: 9,
+                funcaoSistema: "Config.de Sistema / Usuário do Sistema  - Listagem"
+            }
+        })
+
+        await FuncaoSistema.findOrCreate({
+            where: {
+                id: 10,
+                funcaoSistema: "Config.de Sistema / Usuário do Sistema - Cadastro e Alteração"
             }
         })
 
@@ -33,25 +79,17 @@ module.exports = {
             }
         })
 
-        await FuncaoUsuarioAcesso.findOrCreate({
-            where: {
-                idFuncaoSistema: funcaoSistema[0].id,
-                idFuncaoUsuario: funcaoUsuario[0].id
-            }
-        })
+        // Inserindo essas permisões para usuario Administrador
+        const funcoesSistema = [7, 8, 9, 10];
 
-        funcaoSistema = await FuncaoSistema.findOrCreate({
-            where: {
-                funcaoSistema: "Config.de Sistema / Usuário do Sistema"
-            }
-        })
-
-        await FuncaoUsuarioAcesso.findOrCreate({
-            where: {
-                idFuncaoSistema: funcaoSistema[0].id,
-                idFuncaoUsuario: funcaoUsuario[0].id
-            }
-        })
+        for (const idFuncaoSistema of funcoesSistema) {
+            await FuncaoUsuarioAcesso.findOrCreate({
+                where: {
+                    idFuncaoSistema: idFuncaoSistema,
+                    idFuncaoUsuario: funcaoUsuario[0].id
+                }
+            });
+        }
 
     }
 }
