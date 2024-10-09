@@ -18,6 +18,12 @@ interface ClienteFornecedorAttributes {
     telefoneCelular?: string;
     telefoneAlternativo?: string;
     telefoneWhatsApp?: string;
+    dataNascimento?: Date;
+    sexo?: 'Masculino' | 'Feminino';
+    nacionalidade?: string;
+    tipoDocumento?: 'RG' | 'CPF' | 'CNPJ' | 'Passaporte' | 'Outro';
+    limiteCredito?: number;
+    observacao?: string;
     empresaId: number;
 }
 
@@ -39,6 +45,12 @@ class ClienteFornecedor extends Model<ClienteFornecedorAttributes, ClienteFornec
     public telefoneCelular!: string;
     public telefoneAlternativo!: string;
     public telefoneWhatsApp!: string;
+    public dataNascimento!: Date;
+    public sexo!: 'Masculino' | 'Feminino';
+    public nacionalidade!: string;
+    public tipoDocumento!: 'RG' | 'CPF' | 'CNPJ' | 'Passaporte' | 'Outro';
+    public limiteCredito!: number;
+    public observacao!: string;
     public empresaId!: number;
 
     static initialize(sequelize: Sequelize) {
@@ -105,6 +117,30 @@ class ClienteFornecedor extends Model<ClienteFornecedorAttributes, ClienteFornec
                 type: DataTypes.STRING,
                 allowNull: true
             },
+            dataNascimento: {
+                type: DataTypes.DATE,
+                allowNull: true
+            },
+            sexo: {
+                type: DataTypes.ENUM('Masculino', 'Feminino'),
+                allowNull: true
+            },
+            nacionalidade: {
+                type: DataTypes.STRING,
+                allowNull: true
+            },
+            tipoDocumento: {
+                type: DataTypes.ENUM('RG', 'CPF', 'CNPJ', 'Passaporte', 'Outro'),
+                allowNull: true
+            },
+            limiteCredito: {
+                type: DataTypes.DECIMAL(10, 2),
+                allowNull: true
+            },
+            observacao: {
+                type: DataTypes.STRING,
+                allowNull: true
+            },
             empresaId: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
@@ -135,12 +171,13 @@ interface EnderecoAttributes {
     rua: string;
     uf: string;
     cidadeId: number;
-    numero: string;
+    numero?: string;
     bairro: string;
     cep: string;
     inscricaoEstadual?: string;
     complemento?: string;
     observacao?: string;
+    nomeCidade?: string;
 }
 
 interface EnderecoCreationAttributes extends Optional<EnderecoAttributes, 'id'> { }
@@ -158,6 +195,7 @@ class Endereco extends Model<EnderecoAttributes, EnderecoCreationAttributes> imp
     public inscricaoEstadual!: string;
     public complemento!: string;
     public observacao!: string;
+    public nomeCidade!: string;
 
     static initialize(sequelize: Sequelize) {
         Endereco.init({
@@ -196,7 +234,7 @@ class Endereco extends Model<EnderecoAttributes, EnderecoCreationAttributes> imp
             },
             numero: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: true
             },
             bairro: {
                 type: DataTypes.STRING,
@@ -208,7 +246,7 @@ class Endereco extends Model<EnderecoAttributes, EnderecoCreationAttributes> imp
             },
             inscricaoEstadual: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: true
             },
             complemento: {
                 type: DataTypes.STRING,
@@ -216,7 +254,11 @@ class Endereco extends Model<EnderecoAttributes, EnderecoCreationAttributes> imp
             },
             observacao: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: true
+            },
+            nomeCidade: {
+                type: DataTypes.STRING,
+                allowNull: true
             }
         }, {
             sequelize,

@@ -8,6 +8,7 @@ import { ClienteFornecedorInit } from '../models/ClienteFornecedor';
 import { ContaAPagarInit } from '../models/ContaAPagar';
 import { ContaAReceberInit } from '../models/ContaAReceber';
 import { ContaBancariaInit } from '../models/ContaBancaria';
+import { EstruturaTorneioInit } from '../models/EstruturaTorneio';
 const ConfigIniciais = require('./ConfigIniciais')
 const FuncaoSistema = require('./FuncaoSistema')
 
@@ -28,6 +29,7 @@ const connection = new Sequelize(dbConfig);
     // ContaAPagarInit(connection)
     // ContaAReceberInit(connection)
     // ContaBancariaInit(connection)
+    EstruturaTorneioInit(connection)
 
     // Sincronizando os modelos com o banco de dados        
     await connection.sync();

@@ -6,6 +6,9 @@ const usuarioRoutes = require('./routes/usuarioRoutes')
 const cidadeRoutes = require('./routes/cidadeRoutes')
 const ClienteFornecedorRoutes = require('./routes/clienteFornecedorRoutes')
 const empresaRoutes = require('./routes/empresaRoutes')
+const enderecoRoutes = require('./routes/enderecoRoutes')
+const blindRoutes = require('./routes/blindRoutes')
+
 require('./database/index')
 const cors = require('cors')
 const fileupload = require('express-fileupload')
@@ -25,6 +28,8 @@ server.use(usuarioRoutes)
 server.use(cidadeRoutes)
 server.use(ClienteFornecedorRoutes)
 server.use(empresaRoutes)
+server.use(enderecoRoutes)
+server.use(blindRoutes)
 
 // erros
 server.use(errorHandler)

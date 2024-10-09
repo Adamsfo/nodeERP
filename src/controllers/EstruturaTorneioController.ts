@@ -1,23 +1,23 @@
-import { ClienteFornecedor } from '../models/ClienteFornecedor';
 import { getRegistros } from "../utils/getRegistros"
 import { CustomError } from '../utils/customError'
+import { EstruturaTorneio } from '../models/EstruturaTorneio';
 
 
 module.exports = {
     async get(req: any, res: any, next: any) {
-        await getRegistros(ClienteFornecedor, req, res, next)
+        await getRegistros(EstruturaTorneio, req, res, next)
     },
 
     async add(req: any, res: any, next: any) {
         try {
-            const { empresaId, tipo, cnpjCpf, consumidorFinal, contribuinte } = req.body;
+            const { descricao, fichas, limiteJogadores, valorInscricao, taxaAdm, rake, blindId } = req.body;
 
             //   // Validação básica
-            if (!empresaId || !tipo || !cnpjCpf || !consumidorFinal || !contribuinte) {
+            if (!descricao || !fichas || !limiteJogadores || !valorInscricao || !taxaAdm || !rake || !blindId) {
                 throw new CustomError('Faltando informações em campos obrigatórios.', 400, '');
             }
 
-            const registro = await ClienteFornecedor.create(req.body);
+            const registro = await EstruturaTorneio.create(req.body);
             return res.status(201).json(registro);
         } catch (error) {
             next(error);
@@ -28,7 +28,7 @@ module.exports = {
         try {
             const id = req.params.id;
 
-            const registro = await ClienteFornecedor.findByPk(id);
+            const registro = await EstruturaTorneio.findByPk(id);
             if (!registro) {
                 throw new CustomError('Registro não encontrado.', 404, '');
             }
@@ -56,7 +56,7 @@ module.exports = {
             }
 
             // Verificar se o usuário existe
-            const registro = await ClienteFornecedor.findByPk(id);
+            const registro = await EstruturaTorneio.findByPk(id);
             if (!registro) {
                 throw new CustomError('Registro não encontrado.', 404, '');
                 // return res.status(404).json({ message: 'Usuário não encontrado.' });
