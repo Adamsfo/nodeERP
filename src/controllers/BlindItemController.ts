@@ -10,14 +10,17 @@ module.exports = {
 
     async add(req: any, res: any, next: any) {
         try {
-            const { nivel, smallBlind, bigBlind, duracao, blindId } = req.body;
+            const { duracao, blindId } = req.body;
 
+            console.log(req.body)
             //   // Validação básica
-            if (!nivel || !smallBlind || !bigBlind || !duracao || !blindId) {
+            if (!duracao || !blindId) {
                 throw new CustomError('Faltando informações em campos obrigatórios.', 400, '');
             }
+            console.log('------------------------------------------------------')
 
             const registro = await BlindItem.create(req.body);
+            console.log(registro);
             return res.status(201).json(registro);
         } catch (error) {
             next(error);

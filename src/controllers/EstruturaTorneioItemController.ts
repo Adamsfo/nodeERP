@@ -1,29 +1,36 @@
 import { getRegistros } from "../utils/getRegistros"
 import { CustomError } from '../utils/customError'
-import { Blind, EstruturaTorneio } from '../models/EstruturaTorneio';
+import { EstruturaTorneioItem } from '../models/EstruturaTorneio';
 
 
 module.exports = {
     async get(req: any, res: any, next: any) {
-        await getRegistros(EstruturaTorneio, req, res, next, [
-            {
-                model: Blind,
-                as: 'blind',
-                attributes: ['descricao'],
-            }
-        ]);
+        await getRegistros(EstruturaTorneioItem, req, res, next)
     },
 
     async add(req: any, res: any, next: any) {
         try {
-            const { descricao, blindId } = req.body;
+            const { fichas, valorInscricao, estruturaId } = req.body;
 
-            //   // Validação básica
-            if (!descricao || !blindId) {
+            if (!fichas || !valorInscricao || !estruturaId) {
                 throw new CustomError('Faltando informações em campos obrigatórios.', 400, '');
             }
 
-            const registro = await EstruturaTorneio.create(req.body);
+            const attributes = EstruturaTorneioItem.getAttributes();
+            console.log(attributes)
+
+            Object.keys(req.body).forEach(field => {
+                if (req.body[field] !== undefined) {
+                    if ((attributes as any)[field].type.key === 'DECIMAL' && !req.body[field].toString().includes('.')) {
+                        (req.body)[field] = req.body[field] / 100;
+                    } else {
+                        (req.body)[field] = req.body[field];
+                    }
+                }
+            });
+
+            const registro = await EstruturaTorneioItem.create(req.body);
+            console.log(registro);
             return res.status(201).json(registro);
         } catch (error) {
             next(error);
@@ -34,15 +41,22 @@ module.exports = {
         try {
             const id = req.params.id;
 
-            const registro = await EstruturaTorneio.findByPk(id);
+            const registro = await EstruturaTorneioItem.findByPk(id);
             if (!registro) {
                 throw new CustomError('Registro não encontrado.', 404, '');
             }
 
+            const attributes = EstruturaTorneioItem.getAttributes();
+            console.log(attributes)
+
             // Atualizar apenas os campos que estão definidos (não são undefined)
             Object.keys(req.body).forEach(field => {
                 if (req.body[field] !== undefined && field in registro) {
-                    (registro as any)[field] = req.body[field];
+                    if ((attributes as any)[field].type.key === 'DECIMAL' && (attributes as any)[field].type._scale == 2 && !req.body[field].toString().includes('.')) {
+                        (registro as any)[field] = req.body[field] / 100;
+                    } else {
+                        (registro as any)[field] = req.body[field];
+                    }
                 }
             });
 
@@ -62,7 +76,7 @@ module.exports = {
             }
 
             // Verificar se o usuário existe
-            const registro = await EstruturaTorneio.findByPk(id);
+            const registro = await EstruturaTorneioItem.findByPk(id);
             if (!registro) {
                 throw new CustomError('Registro não encontrado.', 404, '');
                 // return res.status(404).json({ message: 'Usuário não encontrado.' });

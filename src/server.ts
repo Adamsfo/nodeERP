@@ -8,6 +8,8 @@ const ClienteFornecedorRoutes = require('./routes/clienteFornecedorRoutes')
 const empresaRoutes = require('./routes/empresaRoutes')
 const enderecoRoutes = require('./routes/enderecoRoutes')
 const blindRoutes = require('./routes/blindRoutes')
+const estruturaRoutes = require('./routes/estruturaRoutes')
+const torneioRoutes = require('./routes/torneioRoutes')
 
 require('./database/index')
 const cors = require('cors')
@@ -30,6 +32,8 @@ server.use(ClienteFornecedorRoutes)
 server.use(empresaRoutes)
 server.use(enderecoRoutes)
 server.use(blindRoutes)
+server.use(estruturaRoutes)
+server.use(torneioRoutes)
 
 // erros
 server.use(errorHandler)

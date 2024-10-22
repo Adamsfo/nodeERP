@@ -3,12 +3,13 @@ const dbConfig = require('../config/database')
 import { EmpresaInit } from '../models/Empresa';
 import { UsuarioInit } from '../models/Usuario'
 import { CidadeInit } from '../models/Cidade';
-import { VeiculoInit } from '../models/Veiculo';
+// import { VeiculoInit } from '../models/Veiculo';
 import { ClienteFornecedorInit } from '../models/ClienteFornecedor';
-import { ContaAPagarInit } from '../models/ContaAPagar';
-import { ContaAReceberInit } from '../models/ContaAReceber';
-import { ContaBancariaInit } from '../models/ContaBancaria';
+// import { ContaAPagarInit } from '../models/ContaAPagar';
+// import { ContaAReceberInit } from '../models/ContaAReceber';
+// import { ContaBancariaInit } from '../models/ContaBancaria';
 import { EstruturaTorneioInit } from '../models/EstruturaTorneio';
+import { TorneioInit } from '../models/Torneio';
 const ConfigIniciais = require('./ConfigIniciais')
 const FuncaoSistema = require('./FuncaoSistema')
 
@@ -19,17 +20,20 @@ const connection = new Sequelize(dbConfig);
     // Autenticação da conexão
     await connection.authenticate();
     console.log('Conectado no banco de dados!');
+    // ContaAPagarInit(connection)
+    // ContaAReceberInit(connection)
+    // ContaBancariaInit(connection)
+    // VeiculoInit(connection)
 
     // Inicializando modelos    
     EmpresaInit(connection)
     UsuarioInit(connection)
     CidadeInit(connection)
-    // VeiculoInit(connection)
+
     ClienteFornecedorInit(connection)
-    // ContaAPagarInit(connection)
-    // ContaAReceberInit(connection)
-    // ContaBancariaInit(connection)
+
     EstruturaTorneioInit(connection)
+    TorneioInit(connection)
 
     // Sincronizando os modelos com o banco de dados        
     await connection.sync();
