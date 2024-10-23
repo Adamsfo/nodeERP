@@ -10,8 +10,8 @@ interface TorneioAttributes {
     empresaId: number;
     estruturaId?: number; // Chave estrangeira para associar com EstruturaTorneio
     dataInicio?: Date;
-    status?: 'parado' | 'em andamento' | 'finalizado';
-    nivelAtualOrder: number;
+    status?: 'Criado' | 'parado' | 'em andamento' | 'finalizado';
+    blindItemAtual: number;
     tempoRestanteNivel: number;
 }
 
@@ -27,8 +27,8 @@ class Torneio extends Model<TorneioAttributes, TorneioCreationAttributes> implem
     public empresaId!: number;
     public estruturaId?: number; // Campo para associar com EstruturaTorneio
     public dataInicio?: Date;
-    public status?: 'parado' | 'em andamento' | 'finalizado';
-    public nivelAtualOrder!: number;
+    public status?: 'Criado' | 'parado' | 'em andamento' | 'finalizado';
+    public blindItemAtual!: number;
     public tempoRestanteNivel!: number;
 
     // Inicialização do modelo com Sequelize
@@ -72,12 +72,16 @@ class Torneio extends Model<TorneioAttributes, TorneioCreationAttributes> implem
                 allowNull: true,
             },
             status: {
-                type: DataTypes.ENUM('parado', 'em andamento', 'finalizado'),
+                type: DataTypes.ENUM('Criado', 'parado', 'em andamento', 'finalizado'),
                 allowNull: true,
             },
-            nivelAtualOrder: {
+            blindItemAtual: {
                 type: DataTypes.INTEGER,
-                allowNull: false,
+                allowNull: true,
+                references: {
+                    model: 'torneioBlindItem',
+                    key: 'id'
+                },
             },
             tempoRestanteNivel: {
                 type: DataTypes.INTEGER,
@@ -97,6 +101,8 @@ class Torneio extends Model<TorneioAttributes, TorneioCreationAttributes> implem
 
         // Associação com a tabela EstruturaTorneio
         Torneio.belongsTo(models.EstruturaTorneio, { foreignKey: 'estruturaId', as: 'estruturaTorneio' });
+
+        Torneio.belongsTo(models.TorneioBlindItem, { foreignKey: 'blindItemAtual', as: 'blindItem' })
     }
 }
 
@@ -262,15 +268,17 @@ class TorneioBlindItem extends Model<TorneioBlindItemAttributes, TorneioBlindIte
             }
         }, {
             sequelize,
-            modelName: "toneioBlindItem",
+            modelName: "torneioBlindItem",
             freezeTableName: true,
             timestamps: false,
         });
     }
 
     // Definindo o relacionamento
-    static associate() {
-        TorneioBlindItem.belongsTo(Torneio, { foreignKey: 'torneioId', as: 'torneio' });
+    public static associate(models: any) {
+        // Associação com a tabela Blind
+        TorneioBlindItem.belongsTo(models.Torneio, { foreignKey: 'torneioId', as: 'torneio' });
+
     }
 }
 
@@ -281,9 +289,9 @@ export const TorneioInit = (sequelize: Sequelize) => {
     TorneioBlindItem.initialize(sequelize);
 
     // Associar os modelos após a inicialização
-    Torneio.associate({ Empresa, EstruturaTorneio });
+    Torneio.associate({ Empresa, EstruturaTorneio, TorneioBlindItem });
     TorneioItem.associate({ Torneio });
-    TorneioBlindItem.associate();
+    TorneioBlindItem.associate({ Torneio });
 }
 
 export {

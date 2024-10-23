@@ -28,19 +28,22 @@
     "mysql2": "^3.10.2",
     "nodemailer": "^6.9.14",
     "sequelize": "^6.37.3",
+    "socket.io": "^4.8.0",
     "tedious": "^18.2.4",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^22.0.2",
+    "@types/ws": "^8.5.12",
     "nodemon": "^3.1.4",
     "sequelize-auto-migrations": "^1.0.3",
     "sequelize-cli": "^6.6.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
   },
-  "files": [                            
+  "files": [
     "dist/**/*"
   ]
 }
