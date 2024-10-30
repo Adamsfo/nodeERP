@@ -3,11 +3,17 @@ services:
     build: .
     # command: npm start
     ports:
-      - 9000:9000
+      - "9000:9000"
     volumes:
       - .:/home/dev/ERP_Concessionaria/nodeERP
-    # environment:
-    #   DB_HOST: host.docker.internal
+    networks:
+      - app-network
+    environment:
+      - PORT=9000
+
+networks:
+  app-network:
+    driver: bridge      
 
   # mysqlerp:
   #   image: mysql:8.0.30-debian

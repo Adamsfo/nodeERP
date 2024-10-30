@@ -56,20 +56,6 @@ server.get('/', (req: any, res: any) => {
 // Inicia o WebSocket
 const httpServer = http.createServer(server);
 iniciarServidorWebSocket(httpServer)
-// wss.on('connection', (ws) => {
-//     console.log('Novo cliente conectado');
-
-//     ws.on('message', (message) => {
-//         console.log('Mensagem recebida: %s', message);
-//     });
-
-//     ws.on('close', () => {
-//         console.log('Cliente desconectado');
-//     });
-
-//     // Enviar uma mensagem de boas-vindas ou status
-//     ws.send(JSON.stringify({ status: 'Conectado ao WebSocket!' }));
-// });
 
 // Define a porta a partir do arquivo de configuração e inicia o servidor
 const PORT = process.env.PORT || 9000; // Define a porta padrão como 9000 se não estiver no .env
