@@ -22,7 +22,10 @@ module.exports = {
                 throw new customError_1.CustomError('Credenciais inválidas.', 401, '');
             }
             const token = (0, jwtUtils_1.generateToken)(usuario);
-            return res.status(200).json({ token });
+            res.status(200).json({
+                data: token
+            });
+            // return res.status(200).json({ token });
         }
         catch (error) {
             next(error);
@@ -30,7 +33,7 @@ module.exports = {
     },
     addLogin: async (req, res, next) => {
         try {
-            const { login, email, senha } = req.body;
+            const { login, email, senha, nomeCompleto } = req.body;
             if (!login || !senha || !email) {
                 throw new customError_1.CustomError('Login, email e senha são obrigatórios.', 400, '');
             }
@@ -42,7 +45,8 @@ module.exports = {
             if (registro) {
                 throw new customError_1.CustomError('Este login já foi utilizado por outro usuário .', 400, '');
             }
-            registro = await Usuario_1.Usuario.create({ login, email, senha });
+            let ativo = false;
+            registro = await Usuario_1.Usuario.create({ login, email, senha, nomeCompleto, ativo });
             return res.status(201).json(registro);
         }
         catch (error) {

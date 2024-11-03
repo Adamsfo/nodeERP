@@ -40,8 +40,9 @@ const connection = new Sequelize(dbConfig);
     // await connection.sync({ alter: true });
 
     // Executando configurações iniciais
-    await ConfigIniciais.configUsuario();
     await FuncaoSistema.funcaoSistema();
+    await ConfigIniciais.configUsuario();
+
 
   } catch (error) {
     console.error('Banco de dados não conectado:', error);

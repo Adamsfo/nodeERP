@@ -1,5 +1,5 @@
 import { Empresa } from '../models/Empresa'
-import { FuncaoSistema, FuncaoUsuario, FuncaoUsuarioAcesso, Usuario } from '../models/Usuario'
+import { FuncaoSistema, FuncaoUsuario, FuncaoUsuarioAcesso, Usuario, UsuarioEmpresa } from '../models/Usuario'
 
 module.exports = {
     configUsuario: async () => {
@@ -19,7 +19,7 @@ module.exports = {
             }
         })
 
-        await Empresa.findOrCreate({
+        const empresa = await Empresa.findOrCreate({
             where: {
                 id: 1
             },
@@ -41,6 +41,17 @@ module.exports = {
                 regimeTributario: 'Simples Nacional',
                 ambienteNFe: 'Homologação',
                 tipo: 'principal'
+            }
+        })
+
+        await UsuarioEmpresa.findOrCreate({
+            where: {
+                usuarioId: usuario[0].id,
+                empresaId: empresa[0].id
+            },
+            defaults: {
+                usuarioId: usuario[0].id,
+                empresaId: empresa[0].id
             }
         })
 

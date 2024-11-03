@@ -12,5 +12,5 @@ COPY . .
 
 EXPOSE 9000
 
-CMD ["tail", "-f", "/dev/null"]
-# CMD ["npm", "start"]
+# CMD ["tail", "-f", "/dev/null"]
+CMD ["npm", "start"]

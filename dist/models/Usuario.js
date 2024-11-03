@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UsuarioFuncao = exports.Usuario = exports.FuncaoUsuarioAcesso = exports.FuncaoUsuario = exports.FuncaoSistema = exports.UsuarioInit = void 0;
+exports.UsuarioEmpresa = exports.Usuario = exports.FuncaoUsuarioAcesso = exports.FuncaoUsuario = exports.FuncaoSistema = exports.UsuarioInit = void 0;
 const sequelize_1 = require("sequelize");
+const Empresa_1 = require("./Empresa");
 const bcrypt = require('bcrypt');
 class FuncaoSistema extends sequelize_1.Model {
     static initialize(sequelize) {
@@ -43,6 +44,12 @@ class FuncaoUsuario extends sequelize_1.Model {
             freezeTableName: true
         });
     }
+    static associate(models) {
+        FuncaoUsuario.hasMany(models.Usuario, {
+            foreignKey: 'idFuncaoUsuario',
+            as: 'usuario'
+        });
+    }
 }
 exports.FuncaoUsuario = FuncaoUsuario;
 class FuncaoUsuarioAcesso extends sequelize_1.Model {
@@ -73,6 +80,16 @@ class FuncaoUsuarioAcesso extends sequelize_1.Model {
             freezeTableName: true
         });
     }
+    static associate() {
+        FuncaoUsuarioAcesso.belongsTo(FuncaoSistema, {
+            foreignKey: 'idFuncaoSistema',
+            as: 'funcaoSistema' // Alias para a relação
+        });
+        FuncaoUsuarioAcesso.belongsTo(FuncaoUsuario, {
+            foreignKey: 'idFuncaoUsuario',
+            as: 'funcaoUsuario' // Alias para a relação
+        });
+    }
 }
 exports.FuncaoUsuarioAcesso = FuncaoUsuarioAcesso;
 class Usuario extends sequelize_1.Model {
@@ -101,18 +118,32 @@ class Usuario extends sequelize_1.Model {
                 type: sequelize_1.DataTypes.BOOLEAN,
                 defaultValue: false
             },
-            token: sequelize_1.DataTypes.STRING
+            token: sequelize_1.DataTypes.STRING,
+            idFuncaoUsuario: {
+                type: sequelize_1.DataTypes.INTEGER,
+                allowNull: true,
+                references: {
+                    model: FuncaoUsuario,
+                    key: 'id'
+                }
+            }
         }, {
             sequelize,
             modelName: "Usuario",
             freezeTableName: true,
             hooks: {
                 beforeSave: async (usuario) => {
-                    if (usuario.senha) {
+                    if (usuario.senha && usuario.changed('senha')) {
                         usuario.senha = await bcrypt.hash(usuario.senha, 10);
                     }
                 }
             }
+        });
+    }
+    static associate(models) {
+        Usuario.belongsTo(models.FuncaoUsuario, {
+            foreignKey: 'idFuncaoUsuario',
+            as: 'funcaoUsuario'
         });
     }
     // Método para verificar senha
@@ -121,42 +152,57 @@ class Usuario extends sequelize_1.Model {
     }
 }
 exports.Usuario = Usuario;
-class UsuarioFuncao extends sequelize_1.Model {
+class UsuarioEmpresa extends sequelize_1.Model {
     static initialize(sequelize) {
-        UsuarioFuncao.init({
+        UsuarioEmpresa.init({
             id: {
                 type: sequelize_1.DataTypes.INTEGER,
                 autoIncrement: true,
                 primaryKey: true
             },
-            idUsuario: {
+            usuarioId: {
                 type: sequelize_1.DataTypes.INTEGER,
                 references: {
                     model: Usuario,
                     key: 'id'
                 }
             },
-            idFuncaoUsuario: {
+            empresaId: {
                 type: sequelize_1.DataTypes.INTEGER,
                 references: {
-                    model: FuncaoUsuario,
+                    model: Empresa_1.Empresa,
                     key: 'id'
                 }
             }
         }, {
             sequelize,
-            modelName: "UsuarioFuncao",
+            modelName: "UsuarioEmpresa",
             freezeTableName: true
         });
     }
+    static associate(models) {
+        UsuarioEmpresa.belongsTo(models.Usuario, {
+            foreignKey: 'usuarioId',
+            as: 'usuario'
+        });
+        UsuarioEmpresa.belongsTo(models.Empresa, {
+            foreignKey: 'empresaId',
+            as: 'empresa'
+        });
+    }
 }
-exports.UsuarioFuncao = UsuarioFuncao;
+exports.UsuarioEmpresa = UsuarioEmpresa;
 // Função para inicializar todos os modelos
 const UsuarioInit = (sequelize) => {
     FuncaoSistema.initialize(sequelize);
     FuncaoUsuario.initialize(sequelize);
     FuncaoUsuarioAcesso.initialize(sequelize);
     Usuario.initialize(sequelize);
-    UsuarioFuncao.initialize(sequelize);
+    UsuarioEmpresa.initialize(sequelize);
+    // Associações entre os modelos
+    FuncaoUsuario.associate({ Usuario });
+    Usuario.associate({ FuncaoUsuario });
+    UsuarioEmpresa.associate({ Usuario, Empresa: Empresa_1.Empresa });
+    FuncaoUsuarioAcesso.associate();
 };
 exports.UsuarioInit = UsuarioInit;

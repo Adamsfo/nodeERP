@@ -4,10 +4,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require('dotenv').config();
-// const express = require('express')
 const express_1 = __importDefault(require("express"));
+const TorneioWebSocket_1 = require("./controllers/TorneioWebSocket");
+const http_1 = __importDefault(require("http")); // Importa o http para criar um servidor HTTP
 const authRoutes = require('./routes/authRoutes');
 const usuarioRoutes = require('./routes/usuarioRoutes');
+const cidadeRoutes = require('./routes/cidadeRoutes');
+const ClienteFornecedorRoutes = require('./routes/clienteFornecedorRoutes');
+const empresaRoutes = require('./routes/empresaRoutes');
+const enderecoRoutes = require('./routes/enderecoRoutes');
+const blindRoutes = require('./routes/blindRoutes');
+const estruturaRoutes = require('./routes/estruturaRoutes');
+const torneioRoutes = require('./routes/torneioRoutes');
+// Inicializa o banco de dados
 require('./database/index');
 const cors = require('cors');
 const fileupload = require('express-fileupload');
@@ -15,17 +24,35 @@ var path = require('path');
 var publicDir = path.join(__dirname, 'public');
 const errorHandler = require('./middlewares/errorHandler');
 const server = (0, express_1.default)();
+// Middleware
 server.use(cors());
 server.use(express_1.default.json());
 server.use(express_1.default.urlencoded({ extended: true }));
 server.use(fileupload());
+// Servindo arquivos estáticos
 server.use('/', express_1.default.static(publicDir));
+// Rotas
 server.use(authRoutes);
 server.use(usuarioRoutes);
+server.use(cidadeRoutes);
+server.use(ClienteFornecedorRoutes);
+server.use(empresaRoutes);
+server.use(enderecoRoutes);
+server.use(blindRoutes);
+server.use(estruturaRoutes);
+server.use(torneioRoutes);
+// Tratamento de erros
 server.use(errorHandler);
+// Rota padrão
 server.get('/', (req, res) => {
     res.send('Hello World');
 });
-server.listen(process.env.PORT, () => {
-    console.log(` - Rodando no endereço : ${process.env.BASE}`);
+// Cria um servidor HTTP
+// Inicia o WebSocket
+const httpServer = http_1.default.createServer(server);
+(0, TorneioWebSocket_1.iniciarServidorWebSocket)(httpServer);
+// Define a porta a partir do arquivo de configuração e inicia o servidor
+const PORT = process.env.PORT || 9000; // Define a porta padrão como 9000 se não estiver no .env
+httpServer.listen(PORT, () => {
+    console.log(`Servidor rodando no endereço: ${process.env.BASE || `http://localhost:${PORT}`} e porta ${PORT}`);
 });

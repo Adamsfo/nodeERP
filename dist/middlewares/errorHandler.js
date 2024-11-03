@@ -1,7 +1,7 @@
 "use strict";
 const { ValidationError } = require('sequelize');
 const errorHandler = (err, req, res, next) => {
-    console.error(err);
+    // res.setHeader('Content-Type', 'application/json');
     if (err instanceof ValidationError) {
         // Erro de validação do Sequelize
         return res.status(400).json({

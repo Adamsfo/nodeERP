@@ -3,49 +3,87 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getRegistros = getRegistros;
 const sequelize_1 = require("sequelize");
 // Tipagem genérica para a função `getRegistros`
-async function getRegistros(model, req, res, next) {
+async function getRegistros(model, req, res, next, includeOptions) {
     try {
         // Pegando os parâmetros de paginação, pesquisa, filtros e ordenação da query string
         const page = parseInt(req.query.page, 10) || 1;
         const pageSize = parseInt(req.query.pageSize, 10) || 10;
         const search = req.query.search || '';
         const order = req.query.order || 'asc';
-        const sortBy = req.query.sortBy || 'id'; // Campo padrão para ordenação
-        // Filtros adicionais (opcional)
+        const sortBy = req.query.sortBy || 'id';
         const filters = req.query.filters ? JSON.parse(req.query.filters) : {};
-        // Calculando offset e limit
         const offset = (page - 1) * pageSize;
         const limit = pageSize;
-        // Condição de pesquisa
         const searchCondition = search ? {
             [sequelize_1.Op.or]: Object.keys(model.rawAttributes).map(field => ({
                 [field]: { [sequelize_1.Op.like]: `%${search}%` }
             }))
         } : {};
-        // Condições de filtro adicionais
         const filterConditions = {};
         if (filters && typeof filters === 'object') {
             for (const [key, value] of Object.entries(filters)) {
-                filterConditions[key] = { [sequelize_1.Op.like]: `%${value}%` };
+                console.log(key);
+                if (key.startsWith('empresaId')) {
+                    const ids = typeof value === 'string' ? value.split(',').map(id => parseInt(id.trim(), 10)) : value;
+                    if (Array.isArray(ids)) {
+                        filterConditions[key] = { [sequelize_1.Op.in]: ids };
+                    }
+                }
+                else {
+                    filterConditions[key] = { [sequelize_1.Op.like]: `%${value}%` };
+                }
             }
         }
-        // Combinação de condições de pesquisa e filtro
         const whereCondition = {
             ...searchCondition,
             ...filterConditions
         };
-        // Consultando o banco de dados com paginação, pesquisa, filtros e ordenação
         const { count, rows } = await model.findAndCountAll({
             where: whereCondition,
             offset,
             limit,
-            order: [[sortBy, order]] // Ordenação por campo e direção
+            order: [[sortBy, order]],
+            include: includeOptions || [],
+            distinct: true,
         });
-        // Calculando o número total de páginas
+        // Flattening the associated data
+        const flattenedRows = rows.map(row => {
+            const plainRow = row.get({ plain: true });
+            if (includeOptions) {
+                includeOptions.forEach(option => {
+                    const associatedData = plainRow[option.as || ''];
+                    if (associatedData) {
+                        if (Array.isArray(associatedData)) {
+                            // Merge array data into the main object, if the association returns multiple entries
+                            associatedData.forEach(assocItem => {
+                                Object.keys(assocItem).forEach(key => {
+                                    plainRow[`${option.as}_${key}`] = assocItem[key];
+                                });
+                            });
+                        }
+                        else {
+                            // Merge single associated object data into the main object
+                            Object.keys(associatedData).forEach(key => {
+                                plainRow[`${option.as}_${key}`] = associatedData[key];
+                            });
+                        }
+                    }
+                    else {
+                        // Ensure the attribute is present, even if empty or null
+                        if (option.attributes) {
+                            option.attributes.forEach(attr => {
+                                plainRow[`${option.as}_${attr}`] = null; // Or use an appropriate default value
+                            });
+                        }
+                    }
+                    delete plainRow[option.as || ''];
+                });
+            }
+            return plainRow;
+        });
         const totalPages = Math.ceil(count / pageSize);
-        // Retornando a resposta com dados e metadados de paginação
         res.status(200).json({
-            data: rows,
+            data: flattenedRows,
             meta: {
                 totalItems: count,
                 totalPages,
@@ -55,7 +93,7 @@ async function getRegistros(model, req, res, next) {
         });
     }
     catch (error) {
+        console.error('Error fetching records:', error); // Log detalhado para depuração
         next(error);
     }
 }
-// export default getRegistros;
