@@ -21,7 +21,7 @@ module.exports = {
 
             Object.keys(req.body).forEach(field => {
                 if (req.body[field] !== undefined) {
-                    if ((attributes as any)[field].type.key === 'DECIMAL' && !req.body[field].toString().includes('.')) {
+                    if ((attributes as any)[field].type.key === 'DECIMAL' && (attributes as any)[field].type._scale == 2 && !req.body[field].toString().includes('.')) {
                         (req.body)[field] = req.body[field] / 100;
                     } else {
                         (req.body)[field] = req.body[field];
@@ -41,7 +41,7 @@ module.exports = {
         try {
             const id = req.params.id;
 
-            const registro = await EstruturaTorneioItem.findByPk(id);
+            let registro = await EstruturaTorneioItem.findByPk(id);
             if (!registro) {
                 throw new CustomError('Registro não encontrado.', 404, '');
             }

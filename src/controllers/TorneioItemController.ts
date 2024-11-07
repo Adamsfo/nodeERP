@@ -30,7 +30,7 @@ module.exports = {
             });
 
             const registro = await TorneioItem.create(req.body);
-            console.log(registro);
+
             return res.status(201).json(registro);
         } catch (error) {
             next(error);

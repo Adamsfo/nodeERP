@@ -52,7 +52,7 @@ class EstruturaTorneio extends Model<EstruturaTorneioAttributes, EstruturaTornei
             sequelize,
             modelName: "estruturaTorneio",
             freezeTableName: true,
-            timestamps: false,
+            timestamps: true,
         });
     }
 
@@ -73,6 +73,7 @@ interface EstruturaTorneioItemAttributes {
     qtdePorJogador: number;
     valorInscricao: number;
     taxaAdm: number;
+    totalInscricao?: number;
     tipoRake?: '%' | 'R$';
     rake: number;
     estruturaId?: number; // Chave estrangeira para associar com Blind    
@@ -91,6 +92,7 @@ class EstruturaTorneioItem extends Model<EstruturaTorneioItemAttributes, Estrutu
     public qtdePorJogador!: number;
     public valorInscricao!: number;
     public taxaAdm!: number;
+    public totalInscricao!: number;
     public tipoRake?: '%' | 'R$';
     public rake!: number;
     public estruturaId?: number;
@@ -127,6 +129,10 @@ class EstruturaTorneioItem extends Model<EstruturaTorneioItemAttributes, Estrutu
                 type: DataTypes.DECIMAL(10, 2),
                 allowNull: false,
             },
+            totalInscricao: {
+                type: DataTypes.DECIMAL(10, 2),
+                allowNull: true,
+            },
             tipoRake: {
                 type: DataTypes.ENUM('%', 'R$'),
                 allowNull: true,
@@ -147,7 +153,7 @@ class EstruturaTorneioItem extends Model<EstruturaTorneioItemAttributes, Estrutu
             sequelize,
             modelName: "estruturaTorneioItem",
             freezeTableName: true,
-            timestamps: false,
+            timestamps: true,
         });
     }
 
@@ -200,7 +206,7 @@ class Blind extends Model<BlindAttributes, BlindCreationAttributes> implements B
             sequelize,
             modelName: "blind",
             freezeTableName: true,
-            timestamps: false,
+            timestamps: true,
         });
     }
 
@@ -291,7 +297,7 @@ class BlindItem extends Model<BlindItemAttributes, BlindItemCreationAttributes> 
             sequelize,
             modelName: "blindItem",
             freezeTableName: true,
-            timestamps: false,
+            timestamps: true,
         });
     }
 

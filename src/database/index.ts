@@ -10,6 +10,8 @@ import { ClienteFornecedorInit } from '../models/ClienteFornecedor';
 // import { ContaBancariaInit } from '../models/ContaBancaria';
 import { EstruturaTorneioInit } from '../models/EstruturaTorneio';
 import { TorneioInit } from '../models/Torneio';
+import { TicketInit } from '../models/Ticket';
+import { FinanceiroInit } from '../models/Financeito';
 const ConfigIniciais = require('./ConfigIniciais')
 const FuncaoSistema = require('./FuncaoSistema')
 
@@ -34,6 +36,8 @@ const connection = new Sequelize(dbConfig);
 
     EstruturaTorneioInit(connection)
     TorneioInit(connection)
+    TicketInit(connection)
+    FinanceiroInit(connection)
 
     // Sincronizando os modelos com o banco de dados        
     await connection.sync();

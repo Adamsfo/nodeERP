@@ -3,14 +3,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const getRegistros_1 = require("../utils/getRegistros");
+const getRegistros = require("../utils/getRegistros");
 const customError_1 = require("../utils/customError");
 const EstruturaTorneio_1 = require("../models/EstruturaTorneio");
 const Torneio_1 = require("../models/Torneio");
 const TorneioService_1 = __importDefault(require("./TorneioService"));
 module.exports = {
     async get(req, res, next) {
-        await (0, getRegistros_1.getRegistros)(Torneio_1.Torneio, req, res, next, [
+        await (0, getRegistros.getRegistros)(Torneio_1.Torneio, req, res, next, [
             {
                 model: Torneio_1.TorneioBlindItem,
                 as: 'blindItem',

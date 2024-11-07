@@ -1,7 +1,6 @@
 import WebSocket from 'ws';
 import { Server as HttpServer } from 'http';
 import TorneioService from './TorneioService';
-import { Torneio, TorneioBlindItem } from '../models/Torneio';
 
 let wss: WebSocket.Server | null = null;
 

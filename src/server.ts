@@ -11,6 +11,7 @@ const enderecoRoutes = require('./routes/enderecoRoutes');
 const blindRoutes = require('./routes/blindRoutes');
 const estruturaRoutes = require('./routes/estruturaRoutes');
 const torneioRoutes = require('./routes/torneioRoutes');
+const ticketRoutes = require('./routes/ticketRoutes');
 
 // Inicializa o banco de dados
 require('./database/index');
@@ -41,6 +42,7 @@ server.use(enderecoRoutes);
 server.use(blindRoutes);
 server.use(estruturaRoutes);
 server.use(torneioRoutes);
+server.use(ticketRoutes)
 
 // Tratamento de erros
 server.use(errorHandler);

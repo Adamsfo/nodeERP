@@ -69,6 +69,7 @@ module.exports = {
                 limiteJogador: item.limiteJogador,
                 qtdePorJogador: item.qtdePorJogador,
                 valorInscricao: item.valorInscricao,
+                totalInscricao: item.totalInscricao,
                 taxaAdm: item.taxaAdm,
                 tipoRake: item.tipoRake,
                 rake: item.rake,

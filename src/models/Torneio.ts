@@ -1,6 +1,7 @@
 import { DataTypes, INTEGER, Model, Optional, Sequelize } from 'sequelize';
 import { Empresa } from './Empresa';
 import { EstruturaTorneio } from './EstruturaTorneio';
+import { Usuario } from './Usuario';
 
 // Definição dos atributos da entidade EstruturaTorneio
 interface TorneioAttributes {
@@ -13,6 +14,7 @@ interface TorneioAttributes {
     status?: 'Criado' | 'parado' | 'em andamento' | 'finalizado';
     blindItemAtual: number;
     tempoRestanteNivel: number;
+    usuarioId?: number;
 }
 
 // Define os atributos necessários para a criação de um novo registro,
@@ -30,6 +32,7 @@ class Torneio extends Model<TorneioAttributes, TorneioCreationAttributes> implem
     public status?: 'Criado' | 'parado' | 'em andamento' | 'finalizado';
     public blindItemAtual!: number;
     public tempoRestanteNivel!: number;
+    public usuarioId?: number;
 
     // Inicialização do modelo com Sequelize
     static initialize(sequelize: Sequelize) {
@@ -86,12 +89,20 @@ class Torneio extends Model<TorneioAttributes, TorneioCreationAttributes> implem
             tempoRestanteNivel: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
+            },
+            usuarioId: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                references: {
+                    model: 'usuario',
+                    key: 'id'
+                },
             }
         }, {
             sequelize,
             modelName: "torneio",
             freezeTableName: true,
-            timestamps: false,
+            timestamps: true,
         });
     }
 
@@ -101,8 +112,8 @@ class Torneio extends Model<TorneioAttributes, TorneioCreationAttributes> implem
 
         // Associação com a tabela EstruturaTorneio
         Torneio.belongsTo(models.EstruturaTorneio, { foreignKey: 'estruturaId', as: 'estruturaTorneio' });
-
         Torneio.belongsTo(models.TorneioBlindItem, { foreignKey: 'blindItemAtual', as: 'blindItem' })
+        Torneio.belongsTo(models.Usuario, { foreignKey: 'usuarioId', as: 'usuario' })
     }
 }
 
@@ -114,6 +125,7 @@ interface TorneioItemAttributes {
     qtdePorJogador: number;
     valorInscricao: number;
     taxaAdm: number;
+    totalInscricao?: number;
     tipoRake?: '%' | 'R$';
     rake: number;
     torneioId?: number; // Chave estrangeira para associar com Torneio
@@ -132,6 +144,7 @@ class TorneioItem extends Model<TorneioItemAttributes, TorneioItemCreationAttrib
     public qtdePorJogador!: number;
     public valorInscricao!: number;
     public taxaAdm!: number;
+    public totalInscricao?: number;
     public tipoRake?: '%' | 'R$';
     public rake!: number;
     public torneioId?: number; // Campo para associar com Torneio
@@ -168,6 +181,10 @@ class TorneioItem extends Model<TorneioItemAttributes, TorneioItemCreationAttrib
                 type: DataTypes.DECIMAL(10, 2),
                 allowNull: false,
             },
+            totalInscricao: {
+                type: DataTypes.DECIMAL(10, 2),
+                allowNull: true,
+            },
             tipoRake: {
                 type: DataTypes.ENUM('%', 'R$'),
                 allowNull: true,
@@ -188,7 +205,7 @@ class TorneioItem extends Model<TorneioItemAttributes, TorneioItemCreationAttrib
             sequelize,
             modelName: "torneioItem",
             freezeTableName: true,
-            timestamps: false,
+            timestamps: true,
         });
     }
 
@@ -270,7 +287,7 @@ class TorneioBlindItem extends Model<TorneioBlindItemAttributes, TorneioBlindIte
             sequelize,
             modelName: "torneioBlindItem",
             freezeTableName: true,
-            timestamps: false,
+            timestamps: true,
         });
     }
 
@@ -289,7 +306,7 @@ export const TorneioInit = (sequelize: Sequelize) => {
     TorneioBlindItem.initialize(sequelize);
 
     // Associar os modelos após a inicialização
-    Torneio.associate({ Empresa, EstruturaTorneio, TorneioBlindItem });
+    Torneio.associate({ Empresa, EstruturaTorneio, TorneioBlindItem, Usuario });
     TorneioItem.associate({ Torneio });
     TorneioBlindItem.associate({ Torneio });
 }

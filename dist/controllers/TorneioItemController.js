@@ -3,10 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const getRegistros_1 = require("../utils/getRegistros");
 const customError_1 = require("../utils/customError");
 const Torneio_1 = require("../models/Torneio");
+
 module.exports = {
     async get(req, res, next) {
         await (0, getRegistros_1.getRegistros)(Torneio_1.TorneioItem, req, res, next);
     },
+
     async add(req, res, next) {
         try {
             const { fichas, valorInscricao, estruturaId } = req.body;
@@ -33,6 +35,7 @@ module.exports = {
             next(error);
         }
     },
+
     async edit(req, res, next) {
         try {
             const id = req.params.id;
@@ -60,6 +63,7 @@ module.exports = {
             next(error); // Passa o erro para o middleware de tratamento de erros
         }
     },
+
     async delete(req, res, next) {
         try {
             const id = req.params.id;
