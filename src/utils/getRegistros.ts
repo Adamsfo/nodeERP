@@ -6,6 +6,11 @@ interface IncludeOptions {
   attributes?: string[];
 }
 
+// Função para converter de camelCase/UpperCamelCase para snake_case
+function convertToSnakeCase(str: string): string {
+  return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+}
+
 // Tipagem genérica para a função `getRegistros`
 export async function getRegistros<T extends Model>(
   model: ModelStatic<T>,
@@ -27,23 +32,59 @@ export async function getRegistros<T extends Model>(
     const offset = (page - 1) * pageSize;
     const limit = pageSize;
 
-    const searchCondition = search ? {
-      [Op.or]: Object.keys(model.rawAttributes).map(field => ({
-        [field]: { [Op.like]: `%${search}%` }
-      }))
-    } : {};
+
+    const searchCondition: any = search
+      ? {
+        [Op.or]: [
+          // Condições para os campos das associações
+          ...(includeOptions?.map(option => {
+            if (option.as) {
+              return option.attributes?.map(attr => ({
+                [`$${option.as}.${convertToSnakeCase(attr)}$`]: { [Op.like]: `%${search}%` }
+              }));
+            }
+            return null;
+          }).flat().filter(Boolean) || []),
+
+          // Condições para os campos da tabela principal
+          ...Object.keys(model.rawAttributes)
+            .filter(field => {
+              const dbField = convertToSnakeCase(field);
+              return dbField !== 'created_at' && dbField !== 'updated_at';
+            })
+            .map(field => ({
+              [field]: { [Op.like]: `%${search}%` }
+            }))
+        ]
+      }
+      : {};
 
     const filterConditions: { [key: string]: any } = {};
+
     if (filters && typeof filters === 'object') {
       for (const [key, value] of Object.entries(filters)) {
-        console.log(key);
-        if (key.startsWith('empresaId')) {
-          const ids = typeof value === 'string' ? value.split(',').map(id => parseInt(id.trim(), 10)) : value;
-          if (Array.isArray(ids)) {
-            filterConditions[key] = { [Op.in]: ids };
+        if (key.includes('_')) {
+          // Se o nome do filtro contém underline, trata como uma associação
+          const [association, field] = key.split('_'); // Ex: "ClienteFornecedor", "razaoSocialNome"
+
+          // Verifica se a associação está em `includeOptions`
+          const assocOption = includeOptions?.find(option => option.as === association);
+          if (assocOption) {
+            const snakeCaseField = convertToSnakeCase(field);
+            // Condição de filtro para a associação com a tabela
+            // Usamos o formato de $association.field$ para aplicar o filtro corretamente
+            filterConditions[`$${association}.${snakeCaseField}$`] = { [Op.like]: `%${value}%` };
           }
         } else {
-          filterConditions[key] = { [Op.like]: `%${value}%` };
+          // Para filtros normais, não relacionados a associações
+          if (key.startsWith('empresaId')) {
+            const ids = typeof value === 'string' ? value.split(',').map(id => parseInt(id.trim(), 10)) : value;
+            if (Array.isArray(ids)) {
+              filterConditions[key] = { [Op.in]: ids };
+            }
+          } else {
+            filterConditions[key] = { [Op.like]: `%${value}%` };
+          }
         }
       }
     }

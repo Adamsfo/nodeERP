@@ -17,6 +17,11 @@ module.exports = {
                 model: Torneio,
                 as: 'torneio',
                 attributes: ['descricao'],
+            },
+            {
+                model: TorneioItem,
+                as: 'torneioItem',
+                attributes: ['descricao'],
             }
         ]);
     },
