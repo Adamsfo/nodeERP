@@ -15,6 +15,7 @@ interface TorneioAttributes {
     blindItemAtual: number;
     tempoRestanteNivel: number;
     usuarioId?: number;
+    quantidadeTicketsUtilizados?: number;
 }
 
 // Define os atributos necessários para a criação de um novo registro,

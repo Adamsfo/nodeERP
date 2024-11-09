@@ -20,7 +20,7 @@ interface TicketAttributes {
     empresaId: number;
     pagamentoId: number;
     metodoPagamento: 'Pagamento' | 'Crédito na Conta'
-    status: 'DISPONÍVEL' | 'PENDENTE' | 'CANCELADO' | 'USADO';
+    status: 'DISPONÍVEL' | 'PENDENTE' | 'CANCELADO' | 'UTILIZADO';
 }
 
 interface TicketCreationAttributes extends Optional<TicketAttributes, 'id'> { }
@@ -40,7 +40,7 @@ class Ticket extends Model<TicketAttributes, TicketCreationAttributes> implement
     public empresaId!: number;
     public pagamentoId!: number;
     public metodoPagamento!: 'Pagamento' | 'Crédito na Conta'
-    public status!: 'DISPONÍVEL' | 'PENDENTE' | 'CANCELADO' | 'USADO';
+    public status!: 'DISPONÍVEL' | 'PENDENTE' | 'CANCELADO' | 'UTILIZADO';
 
     static initialize(sequelize: Sequelize) {
         Ticket.init({
@@ -132,7 +132,7 @@ class Ticket extends Model<TicketAttributes, TicketCreationAttributes> implement
                 allowNull: false,
             },
             status: {
-                type: DataTypes.ENUM('DISPONÍVEL', 'PENDENTE', 'CANCELADO', 'USADO'),
+                type: DataTypes.ENUM('DISPONÍVEL', 'PENDENTE', 'CANCELADO', 'UTILIZADO'),
                 allowNull: false,
             }
         }, {
@@ -168,6 +168,10 @@ class Ticket extends Model<TicketAttributes, TicketCreationAttributes> implement
             foreignKey: 'pagamentoId',
             as: 'pagamento'
         });
+        Torneio.hasMany(Ticket, {
+            foreignKey: 'torneioId',
+            as: 'tickets'
+        });
     }
 }
 
@@ -177,7 +181,7 @@ interface TicketHistoricoAttributes {
     descricao: string;
     data: Date;
     usuarioId: number;
-    status: 'DISPONÍVEL' | 'PENDENTE' | 'CANCELADO' | 'USADO';
+    status: 'DISPONÍVEL' | 'PENDENTE' | 'CANCELADO' | 'UTILIZADO';
 }
 
 interface TicketHistoricoCreationAttributes extends Optional<TicketHistoricoAttributes, 'id'> { }
@@ -188,7 +192,7 @@ class TicketHistorico extends Model<TicketHistoricoAttributes, TicketHistoricoCr
     public descricao!: string;
     public data!: Date;
     public usuarioId!: number;
-    public status!: 'DISPONÍVEL' | 'PENDENTE' | 'CANCELADO' | 'USADO';
+    public status!: 'DISPONÍVEL' | 'PENDENTE' | 'CANCELADO' | 'UTILIZADO';
 
     static initialize(sequelize: Sequelize) {
         TicketHistorico.init({
@@ -222,7 +226,7 @@ class TicketHistorico extends Model<TicketHistoricoAttributes, TicketHistoricoCr
                 },
             },
             status: {
-                type: DataTypes.ENUM('DISPONÍVEL', 'PENDENTE', 'CANCELADO', 'USADO'),
+                type: DataTypes.ENUM('DISPONÍVEL', 'PENDENTE', 'CANCELADO', 'UTILIZADO'),
                 allowNull: false,
             }
         }, {

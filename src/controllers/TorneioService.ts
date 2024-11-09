@@ -1,7 +1,12 @@
+import { Sequelize } from "sequelize";
 import { Torneio, TorneioBlindItem } from "../models/Torneio";
 import { enviarAtualizacaoTorneio } from "./TorneioWebSocket";
+import { Ticket } from "../models/Ticket";
 
 let timerId: NodeJS.Timeout | null = null; // Armazena o ID do timer para poder limpar o intervalo
+
+// Variável global para controlar a atualização do torneio
+export let atualizarTorneio = false;
 
 // Função que busca o torneio em andamento ou parado no banco
 async function buscarTorneioEmAndamentoOuParado(): Promise<Torneio | null> {
@@ -13,10 +18,25 @@ async function buscarTorneioEmAndamentoOuParado(): Promise<Torneio | null> {
             model: TorneioBlindItem,
             as: 'blindItem',
             required: false,
-        }]
+        }],
     });
 
+    if (torneio) {
+        torneio.setDataValue('quantidadeTicketsUtilizados', await buscarQuantidadeTicketsUtilizados(torneio.id));
+    }
+
     return torneio || null;
+}
+
+// Função separada para buscar a quantidade de tickets utilizados
+async function buscarQuantidadeTicketsUtilizados(torneioId: number): Promise<number> {
+    const quantidadeTicketUtilizados = await Ticket.count({
+        where: {
+            torneioId,
+            status: 'utilizado',
+        },
+    });
+    return quantidadeTicketUtilizados;
 }
 
 async function buscarProximoNivel(torneio: Torneio): Promise<TorneioBlindItem> {
@@ -93,7 +113,7 @@ function iniciarContagemBlinds(torneio: Torneio, proximoNivel: TorneioBlindItem,
     if (timerId) {
         clearInterval(timerId);
     }
-    let atualizarTorneio = false
+    // let atualizarTorneio = false
 
     timerId = setInterval(async () => {
         torneio.tempoRestanteNivel--;
@@ -105,16 +125,7 @@ function iniciarContagemBlinds(torneio: Torneio, proximoNivel: TorneioBlindItem,
         await torneio.save();
 
         if (atualizarTorneio) {
-            let torneioAtualizado = await Torneio.findOne({
-                where: {
-                    id: torneio.id,
-                },
-                include: [{
-                    model: TorneioBlindItem,
-                    as: 'blindItem',
-                    required: false,
-                }]
-            });
+            let torneioAtualizado = await buscarTorneioEmAndamentoOuParado();
 
             proximoNivel = await buscarProximoNivel(torneio);
 
@@ -172,9 +183,14 @@ async function finalizarTorneio(torneio: Torneio, callback: (torneioAtualizado: 
     callback(torneio, null); // Passa null para o próximo nível, pois o torneio foi finalizado
 }
 
+async function atualizaTorneio() {
+    atualizarTorneio = !atualizarTorneio
+}
+
 export default {
     iniciarTorneio,
     pararTorneio,
     buscarTorneioEmAndamentoOuParado,
     buscarEEnviarTorneio,
+    atualizaTorneio
 };

@@ -5,6 +5,7 @@ import { Torneio, TorneioItem } from "../models/Torneio";
 import { Usuario } from "../models/Usuario";
 import { ClienteFornecedor } from "../models/ClienteFornecedor";
 import { Pagamento } from "../models/Pagamento";
+import TorneioService from "./TorneioService";
 
 module.exports = {
     async get(req: any, res: any, next: any) {
@@ -94,27 +95,52 @@ module.exports = {
         }
     },
 
-    // async edit(req: any, res: any, next: any) {
-    //     try {
-    //         const id = req.params.id;
+    async ticketUtilizado(req: any, res: any, next: any) {
+        try {
+            const id = req.params.id;
+            const { usuarioId } = req.body;
 
-    //         const registro = await Torneio.findByPk(id);
-    //         if (!registro) {
-    //             throw new CustomError('Registro não encontrado.', 404, '');
-    //         }
+            if (!usuarioId) {
+                throw new CustomError('Usuário não informado.', 400, '');
+            }
 
-    //         // Atualizar apenas os campos que estão definidos (não são undefined)
-    //         Object.keys(req.body).forEach(field => {
-    //             if (req.body[field] !== undefined && field in registro) {
-    //                 (registro as any)[field] = req.body[field];
-    //             }
-    //         });
+            if (!id) {
+                throw new CustomError('Id do ticket não informado.', 400, '');
+            }
 
-    //         await registro.save();
-    //         return res.status(200).json(registro);
-    //     } catch (error) {
-    //         next(error); // Passa o erro para o middleware de tratamento de erros
-    //     }
-    // },  
+            const registro = await Ticket.findByPk(id);
+            if (!registro) {
+                throw new CustomError('Registro não encontrado.', 404, '');
+            }
+
+            if (registro.status !== 'DISPONÍVEL') {
+                throw new CustomError('Ticket não esta disponível para ser utilizado!', 400, '');
+            }
+
+            registro.status = 'UTILIZADO';
+
+            await registro.save();
+
+            const usuario = await Usuario.findOne({ where: { id: req.body.usuarioId } });
+
+            if (!usuario) {
+                throw new CustomError('Usuário não encontrado.', 404, '');
+            }
+
+            await TicketHistorico.create({
+                ticketId: registro.id,
+                descricao: `Ticket utilizado, entrada realizada pelo floor ${usuario?.nomeCompleto}`,
+                usuarioId: usuario.id,
+                data: new Date(),
+                status: registro.status
+            });
+
+            TorneioService.atualizaTorneio();
+
+            return res.status(200).json(registro);
+        } catch (error) {
+            next(error); // Passa o erro para o middleware de tratamento de erros
+        }
+    },
 
 }
