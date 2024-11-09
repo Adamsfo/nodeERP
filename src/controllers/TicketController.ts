@@ -4,6 +4,7 @@ import { Ticket, TicketHistorico } from "../models/Ticket";
 import { Torneio, TorneioItem } from "../models/Torneio";
 import { Usuario } from "../models/Usuario";
 import { ClienteFornecedor } from "../models/ClienteFornecedor";
+import { Pagamento } from "../models/Pagamento";
 
 module.exports = {
     async get(req: any, res: any, next: any) {
@@ -32,15 +33,10 @@ module.exports = {
 
     async add(req: any, res: any, next: any) {
         try {
-            const { torneioId, clienteId, empresaId, torneioItemId, usuarioId } = req.body;
+            const { torneioId, clienteId, empresaId, torneioItemId, usuarioId, metodoPagamento } = req.body;
 
             // Validação básica
-            console.log('torneioId', torneioId);
-            console.log('clienteId', clienteId);
-            console.log('empresaId', empresaId);
-            console.log('torneioItemId', torneioItemId);
-            console.log('usuarioId', usuarioId);
-            if (!torneioId || !clienteId || !empresaId || !torneioItemId || !usuarioId) {
+            if (!torneioId || !clienteId || !empresaId || !torneioItemId || !usuarioId || !metodoPagamento) {
                 throw new CustomError('Faltando informações em campos obrigatórios.', 400, '');
             }
 
@@ -51,6 +47,15 @@ module.exports = {
 
             const usuario = await Usuario.findOne({ where: { id: usuarioId } });
 
+            let pagamento;
+            if (metodoPagamento === 'Pagamento') {
+                pagamento = await Pagamento.create({
+                    valor: torneioItem.totalInscricao ?? 0,
+                    metodo: req.body.metodoPagamento,
+                    empresaId: empresaId,
+                })
+            }
+
             const registro = await Ticket.create({
                 ...req.body,
                 status: 'PENDENTE',
@@ -59,6 +64,8 @@ module.exports = {
                 rake: torneioItem.rake,
                 fichas: torneioItem.fichas,
                 clienteIdPagou: clienteId,
+                metodoPagamento: metodoPagamento,
+                pagamentoId: pagamento && pagamento.id
             });
 
             await TicketHistorico.create({
@@ -68,6 +75,18 @@ module.exports = {
                 data: new Date(),
                 status: registro.status
             });
+
+            if (metodoPagamento === 'Crédito na Conta') {
+                registro.status = 'DISPONÍVEL';
+                registro.save()
+                await TicketHistorico.create({
+                    ticketId: registro.id,
+                    descricao: `Ticket disponibilizado por ${metodoPagamento} pelo usuário ${usuario?.nomeCompleto}`,
+                    usuarioId: usuarioId,
+                    data: new Date(),
+                    status: registro.status
+                });
+            }
 
             return res.status(201).json(registro);
         } catch (error) {

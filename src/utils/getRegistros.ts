@@ -82,6 +82,8 @@ export async function getRegistros<T extends Model>(
             if (Array.isArray(ids)) {
               filterConditions[key] = { [Op.in]: ids };
             }
+          } if (key === 'uid') {
+            filterConditions[key] = { [Op.eq]: value };
           } else {
             filterConditions[key] = { [Op.like]: `%${value}%` };
           }

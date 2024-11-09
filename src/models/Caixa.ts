@@ -1,7 +1,7 @@
 import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
 import { Usuario } from './Usuario';
 import { Empresa } from './Empresa';
-import { Ticket } from './Ticket';
+import { Pagamento } from './Pagamento';
 
 interface CaixaAttributes {
     id: number;
@@ -159,97 +159,15 @@ class CaixaItem extends Model<CaixaItemAttributes, CaixaItemCreationAttributes> 
     }
 }
 
-interface PagamentoAttributes {
-    id: number;
-    ticketId: number;
-    valor: number;
-    dataPagamento: Date;
-    metodo: 'cartao' | 'boleto' | 'pix';
-    caixaItemId?: number | null;  // Adicionado para vincular ao CaixaItem
-    empresaId: number;
-}
-
-interface PagamentoCreationAttributes extends Optional<PagamentoAttributes, 'id'> { }
-
-class Pagamento extends Model<PagamentoAttributes, PagamentoCreationAttributes> implements PagamentoAttributes {
-    public id!: number;
-    public ticketId!: number;
-    public valor!: number;
-    public dataPagamento!: Date;
-    public metodo!: 'cartao' | 'boleto' | 'pix';
-    public caixaItemId!: number | null;
-    public empresaId!: number;
-
-    static initialize(sequelize: Sequelize) {
-        Pagamento.init({
-            id: {
-                type: DataTypes.INTEGER,
-                autoIncrement: true,
-                primaryKey: true
-            },
-            ticketId: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                references: {
-                    model: 'Ticket',
-                    key: 'id'
-                },
-            },
-            valor: {
-                type: DataTypes.DECIMAL(10, 2),
-                allowNull: false,
-            },
-            dataPagamento: {
-                type: DataTypes.DATE,
-                allowNull: false,
-            },
-            metodo: {
-                type: DataTypes.ENUM('cartao', 'boleto', 'pix'),
-                allowNull: false,
-            },
-            caixaItemId: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                references: {
-                    model: 'CaixaItem',
-                    key: 'id'
-                },
-            },
-            empresaId: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                references: {
-                    model: 'Empresa',
-                    key: 'id'
-                },
-            }
-        }, {
-            sequelize,
-            modelName: "Pagamento",
-            freezeTableName: true,
-            timestamps: true,
-        });
-    }
-
-    static associate(models: any) {
-        Pagamento.belongsTo(models.Ticket, { foreignKey: 'ticketId' });
-        Pagamento.belongsTo(models.CaixaItem, { foreignKey: 'caixaItemId' });
-        Pagamento.belongsTo(models.Empresa, { foreignKey: 'empresaId' });
-    }
-}
-
-export const FinanceiroInit = (sequelize: Sequelize) => {
+export const CaixaInit = (sequelize: Sequelize) => {
     Caixa.initialize(sequelize);
     CaixaItem.initialize(sequelize);
-    Pagamento.initialize(sequelize);
 
     Caixa.associate({ CaixaItem, Usuario, Empresa });
     CaixaItem.associate({ Caixa, Pagamento });
-    Pagamento.associate({ Ticket, CaixaItem, Empresa });
 }
 
 export {
     Caixa,
     CaixaItem,
-    Pagamento
 };

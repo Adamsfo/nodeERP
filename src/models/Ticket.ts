@@ -3,6 +3,7 @@ import { Torneio, TorneioItem } from './Torneio';
 import { ClienteFornecedor } from './ClienteFornecedor';
 import { Usuario } from './Usuario';
 import { Empresa } from './Empresa';
+import { Pagamento } from './Pagamento';
 
 interface TicketAttributes {
     id: number;
@@ -17,6 +18,8 @@ interface TicketAttributes {
     fichas: number;
     usuarioId: number;
     empresaId: number;
+    pagamentoId: number;
+    metodoPagamento: 'Pagamento' | 'Crédito na Conta'
     status: 'DISPONÍVEL' | 'PENDENTE' | 'CANCELADO' | 'USADO';
 }
 
@@ -35,6 +38,8 @@ class Ticket extends Model<TicketAttributes, TicketCreationAttributes> implement
     public fichas!: number;
     public usuarioId!: number;
     public empresaId!: number;
+    public pagamentoId!: number;
+    public metodoPagamento!: 'Pagamento' | 'Crédito na Conta'
     public status!: 'DISPONÍVEL' | 'PENDENTE' | 'CANCELADO' | 'USADO';
 
     static initialize(sequelize: Sequelize) {
@@ -114,6 +119,18 @@ class Ticket extends Model<TicketAttributes, TicketCreationAttributes> implement
                     key: 'id'
                 },
             },
+            pagamentoId: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                references: {
+                    model: 'Pagamento',
+                    key: 'id'
+                },
+            },
+            metodoPagamento: {
+                type: DataTypes.ENUM('Pagamento', 'Crédito na Conta'),
+                allowNull: false,
+            },
             status: {
                 type: DataTypes.ENUM('DISPONÍVEL', 'PENDENTE', 'CANCELADO', 'USADO'),
                 allowNull: false,
@@ -146,6 +163,10 @@ class Ticket extends Model<TicketAttributes, TicketCreationAttributes> implement
         Ticket.belongsTo(TorneioItem, {
             foreignKey: 'torneioItemId',
             as: 'torneioItem'
+        });
+        Ticket.belongsTo(Pagamento, {
+            foreignKey: 'pagamentoId',
+            as: 'pagamento'
         });
     }
 }
